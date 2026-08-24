@@ -259,12 +259,23 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback -->
+    <!-- Section 6: User Comments & Feedback (With Floor Jump & Pagination) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
-        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
-          <i class="fa-solid fa-comments text-amber-700"></i> 網友留言指正與補充
-        </h2>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
+          <h2 class="text-2xl font-bold text-red-900 flex items-center gap-2">
+            <i class="fa-solid fa-comments text-amber-700"></i> 網友留言指正與補充
+          </h2>
+          <!-- Jump to Floor Control -->
+          <div class="flex items-center gap-2 bg-sengoku-bg border border-sengoku-border px-3 py-1.5 rounded-lg">
+            <span class="text-xs text-sengoku-subtext font-semibold">跳轉樓層：</span>
+            <input type="number" id="jump-floor-input" min="1" placeholder="樓層 #" class="w-20 bg-white border border-sengoku-border rounded px-2 py-1 text-xs text-center outline-none">
+            <button type="button" onclick="jumpToFloor()" class="px-2.5 py-1 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded text-xs font-bold transition">
+              直達
+            </button>
+          </div>
+        </div>
+
         <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！</p>
 
         <!-- Comment Box -->
@@ -291,6 +302,19 @@
         <div id="comment-list" class="space-y-3 pt-2">
           <!-- Dynamically populated via JS -->
         </div>
+
+        <!-- Pagination Controls -->
+        <div id="comment-pagination" class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-4 border-t border-sengoku-border text-sm">
+          <div id="page-info" class="text-sengoku-subtext font-medium"></div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-prev-page" onclick="changePage(-1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              <i class="fa-solid fa-chevron-left mr-1"></i> 上一頁
+            </button>
+            <button type="button" id="btn-next-page" onclick="changePage(1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              下一頁 <i class="fa-solid fa-chevron-right ml-1"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -308,7 +332,7 @@
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
 
     async function apiFetchComments() {
-      const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=created_at.desc`;
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=id.asc`;
       const res = await fetch(endpoint, {
         method: "GET",
         headers: {
@@ -480,44 +504,121 @@
     }
 
     // ==========================================
-    // 4. 留言區邏輯
+    // 4. 留言區分頁與樓層跳轉邏輯
     // ==========================================
+    const PAGE_SIZE = 10; // 每頁顯示 10 筆留言
+    let currentPage = 1;
+    let allCommentsList = []; // 全體留言陣列 (依時間由舊到新排序，方便賦予固定樓層編號)
+
     async function loadComments() {
-      const container = document.getElementById("comment-list");
-      let commentsToDisplay = [];
+      let rawData = null;
 
       try {
         const remoteData = await apiFetchComments();
         if (Array.isArray(remoteData)) {
-          commentsToDisplay = remoteData.map(c => ({
-            author: c.author,
-            text: c.text,
-            time: c.created_at ? c.created_at.substring(0, 16).replace('T', ' ') : ''
-          }));
+          rawData = remoteData;
         }
       } catch(err) {
         console.warn("Supabase REST 讀取警報 (降級為本地):", err);
       }
 
-      if (commentsToDisplay.length === 0) {
+      if (!rawData || rawData.length === 0) {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
-        commentsToDisplay = stored ? JSON.parse(stored) : [];
+        rawData = stored ? JSON.parse(stored) : [];
+        // 若為本地陣列，先進行反轉讓最早留言排前面以分配正確樓號
+        rawData.reverse();
       }
 
-      if (commentsToDisplay.length === 0) {
+      // 替每筆留言賦予永恆唯一的「樓層編號 Floor #」
+      allCommentsList = rawData.map((item, idx) => ({
+        floor: idx + 1, // 1樓, 2樓, 3樓...
+        author: item.author,
+        text: item.text,
+        time: item.created_at ? item.created_at.substring(0, 16).replace('T', ' ') : (item.time || '')
+      }));
+
+      renderCurrentPageComments();
+    }
+
+    function renderCurrentPageComments() {
+      const container = document.getElementById("comment-list");
+      const pageInfo = document.getElementById("page-info");
+      const btnPrev = document.getElementById("btn-prev-page");
+      const btnNext = document.getElementById("btn-next-page");
+
+      const totalCount = allCommentsList.length;
+
+      if (totalCount === 0) {
         container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
+        pageInfo.innerText = "共 0 筆留言";
+        btnPrev.disabled = true;
+        btnNext.disabled = true;
         return;
       }
 
-      container.innerHTML = commentsToDisplay.map(c => `
-        <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1">
+      // 新留言在上（倒序顯示）
+      const reversedComments = [...allCommentsList].reverse();
+      const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const pageData = reversedComments.slice(startIndex, startIndex + PAGE_SIZE);
+
+      container.innerHTML = pageData.map(c => `
+        <div id="comment-floor-${c.floor}" class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1 transition duration-500">
           <div class="flex justify-between items-center">
-            <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1.5 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 font-mono font-bold text-xs rounded">
+                #${c.floor} 樓
+              </span>
+              <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+            </div>
             <span class="text-xs text-sengoku-subtext">${c.time}</span>
           </div>
-          <p class="text-base text-sengoku-text leading-relaxed">${escapeHtml(c.text)}</p>
+          <p class="text-base text-sengoku-text leading-relaxed pt-1">${escapeHtml(c.text)}</p>
         </div>
       `).join('');
+
+      pageInfo.innerText = `第 ${currentPage} / ${totalPages} 頁 (共 ${totalCount} 筆留言，每頁 ${PAGE_SIZE} 筆)`;
+      btnPrev.disabled = (currentPage === 1);
+      btnNext.disabled = (currentPage === totalPages);
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderCurrentPageComments();
+    }
+
+    function jumpToFloor() {
+      const input = document.getElementById("jump-floor-input");
+      const targetFloor = parseInt(input.value);
+
+      if (!targetFloor || targetFloor < 1 || targetFloor > allCommentsList.length) {
+        alert(`請輸入有效的樓層編號 (1 ~ ${allCommentsList.length})！`);
+        return;
+      }
+
+      // 計算該樓層在哪一頁（倒序排列下的頁碼）
+      const totalCount = allCommentsList.length;
+      const reversedIndex = totalCount - targetFloor; // 倒序時的 0-based 索引
+      const targetPage = Math.floor(reversedIndex / PAGE_SIZE) + 1;
+
+      currentPage = targetPage;
+      renderCurrentPageComments();
+
+      // 平滑滾動至目標樓層並加亮提醒
+      setTimeout(() => {
+        const el = document.getElementById(`comment-floor-${targetFloor}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.classList.add('ring-2', 'ring-red-600', 'bg-amber-50');
+          setTimeout(() => {
+            el.classList.remove('ring-2', 'ring-red-600', 'bg-amber-50');
+          }, 2500);
+        }
+      }, 150);
     }
 
     async function submitComment() {
@@ -553,7 +654,7 @@
         const comments = stored ? JSON.parse(stored) : [];
         const now = new Date();
         const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-        comments.unshift({ author, text, time: timeStr });
+        comments.push({ author, text, time: timeStr });
         localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
       } catch(e) {
         console.error("LocalStorage 寫入失敗:", e);
@@ -572,6 +673,7 @@
         statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已發布至本機（雲端提示：${escapeHtml(apiErrorMsg)}）`;
       }
 
+      currentPage = 1; // 新留言發布後回到第一頁（最新頁）
       await loadComments();
     }
 
