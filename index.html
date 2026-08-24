@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (With Floor Jump & Pagination) -->
+    <!-- Section 6: User Comments & Feedback (30 per page) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
@@ -504,11 +504,11 @@
     }
 
     // ==========================================
-    // 4. 留言區分頁與樓層跳轉邏輯
+    // 4. 留言區分頁與樓層跳轉邏輯 (調整為每頁 30 筆)
     // ==========================================
-    const PAGE_SIZE = 10; // 每頁顯示 10 筆留言
+    const PAGE_SIZE = 30; // 每頁顯示 30 筆留言
     let currentPage = 1;
-    let allCommentsList = []; // 全體留言陣列 (依時間由舊到新排序，方便賦予固定樓層編號)
+    let allCommentsList = [];
 
     async function loadComments() {
       let rawData = null;
@@ -525,13 +525,11 @@
       if (!rawData || rawData.length === 0) {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         rawData = stored ? JSON.parse(stored) : [];
-        // 若為本地陣列，先進行反轉讓最早留言排前面以分配正確樓號
         rawData.reverse();
       }
 
-      // 替每筆留言賦予永恆唯一的「樓層編號 Floor #」
       allCommentsList = rawData.map((item, idx) => ({
-        floor: idx + 1, // 1樓, 2樓, 3樓...
+        floor: idx + 1,
         author: item.author,
         text: item.text,
         time: item.created_at ? item.created_at.substring(0, 16).replace('T', ' ') : (item.time || '')
@@ -556,7 +554,6 @@
         return;
       }
 
-      // 新留言在上（倒序顯示）
       const reversedComments = [...allCommentsList].reverse();
       const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
@@ -600,15 +597,13 @@
         return;
       }
 
-      // 計算該樓層在哪一頁（倒序排列下的頁碼）
       const totalCount = allCommentsList.length;
-      const reversedIndex = totalCount - targetFloor; // 倒序時的 0-based 索引
+      const reversedIndex = totalCount - targetFloor;
       const targetPage = Math.floor(reversedIndex / PAGE_SIZE) + 1;
 
       currentPage = targetPage;
       renderCurrentPageComments();
 
-      // 平滑滾動至目標樓層並加亮提醒
       setTimeout(() => {
         const el = document.getElementById(`comment-floor-${targetFloor}`);
         if (el) {
@@ -673,7 +668,7 @@
         statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已發布至本機（雲端提示：${escapeHtml(apiErrorMsg)}）`;
       }
 
-      currentPage = 1; // 新留言發布後回到第一頁（最新頁）
+      currentPage = 1;
       await loadComments();
     }
 
