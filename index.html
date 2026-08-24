@@ -188,7 +188,7 @@
           <h2 class="text-2xl font-bold text-red-900 flex items-center gap-2">
             <i class="fa-solid fa-camera text-amber-700"></i> 首佔戰報展示區 (6 ~ 9級地)
           </h2>
-          <button onclick="toggleReportUploadForm()" class="text-xs text-amber-800 hover:text-red-900 border border-amber-300 rounded px-2.5 py-1 bg-amber-50">
+          <button type="button" onclick="toggleReportUploadForm()" class="text-sm text-amber-900 hover:text-red-900 border border-amber-300 rounded px-3 py-1.5 bg-amber-100 font-bold shadow-sm cursor-pointer">
             <i class="fa-solid fa-lock mr-1"></i> 站長發布入口
           </button>
         </div>
@@ -196,11 +196,11 @@
 
         <!-- Category Tabs -->
         <div class="flex gap-2 border-b border-sengoku-border pb-2">
-          <button onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm">全部戰報</button>
-          <button onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">6 級地</button>
-          <button onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">7 級地</button>
-          <button onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">8 級地</button>
-          <button onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
+          <button type="button" onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm">全部戰報</button>
+          <button type="button" onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">6 級地</button>
+          <button type="button" onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">7 級地</button>
+          <button type="button" onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">8 級地</button>
+          <button type="button" onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
         </div>
 
         <!-- Author Submission Form (Hidden by default, Password Protected) -->
@@ -211,7 +211,7 @@
           <div class="grid md:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">管理員密碼</label>
-              <input type="password" id="report-admin-pass" placeholder="輸入站長密碼 (預設: duter0117)" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              <input type="password" id="report-admin-pass" placeholder="預設密碼: duter0117" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
@@ -283,14 +283,18 @@
 
   <script>
     // ==========================================
-    // 1. SUPABASE 設定區 (填入您的 Supabase 資訊)
+    // 1. SUPABASE 設定區
     // ==========================================
     const SUPABASE_URL = "https://wtqxsdindrnccxusgcah.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
     
     let supabase = null;
-    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    try {
+      if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
+        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+    } catch(e) {
+      console.warn("Supabase 初始化備註:", e);
     }
 
     // ==========================================
@@ -323,7 +327,13 @@
 
     function toggleReportUploadForm() {
       const form = document.getElementById("author-upload-form");
-      form.classList.toggle("hidden");
+      if (!form) return;
+      if (form.classList.contains("hidden")) {
+        form.classList.remove("hidden");
+        form.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        form.classList.add("hidden");
+      }
     }
 
     function switchReportCategory(cat) {
@@ -333,8 +343,10 @@
         btn.classList.add('text-sengoku-subtext', 'font-semibold');
       });
       const activeBtn = document.getElementById('rep-cat-' + cat);
-      activeBtn.classList.remove('text-sengoku-subtext', 'font-semibold');
-      activeBtn.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+      if (activeBtn) {
+        activeBtn.classList.remove('text-sengoku-subtext', 'font-semibold');
+        activeBtn.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+      }
 
       loadReports();
     }
@@ -415,7 +427,7 @@
     }
 
     // ==========================================
-    // 4. 留言區邏輯 (串接 Supabase + 本地備用)
+    // 4. 留言區邏輯
     // ==========================================
     async function loadComments() {
       const container = document.getElementById("comment-list");
