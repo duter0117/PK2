@@ -181,7 +181,7 @@
       </div>
     </section>
 
-    <!-- Section 5: Screenshot Sharing / Report Area (Author Only Mode) -->
+    <!-- Section 5: Screenshot Sharing / Report Area (Author Only Mode - NO FORM TAG) -->
     <section id="section-reports" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex justify-between items-center border-b border-sengoku-border pb-2">
@@ -203,15 +203,15 @@
           <button type="button" onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
         </div>
 
-        <!-- Author Submission Form (Hidden by default, Password Protected) -->
-        <form id="author-upload-form" onsubmit="submitAuthorReport(event); return false;" class="hidden space-y-4 bg-amber-50/80 p-5 rounded-lg border border-amber-300">
+        <!-- Author Submission Box (NO FORM TAG) -->
+        <div id="author-upload-form" class="hidden space-y-4 bg-amber-50/80 p-5 rounded-lg border border-amber-300">
           <div class="text-sm font-bold text-amber-900 flex items-center gap-1 border-b border-amber-200 pb-2">
             <i class="fa-solid fa-key text-amber-700"></i> 站長專用戰報上壇通道
           </div>
           <div class="grid md:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">管理員密碼</label>
-              <input type="password" id="report-admin-pass" placeholder="預設密碼: duter0117" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              <input type="password" id="report-admin-pass" placeholder="預設密碼: duter0117" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
@@ -224,17 +224,17 @@
             </div>
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">戰報截圖檔案</label>
-              <input type="file" id="report-image-file" accept="image/*" required class="w-full bg-white border border-sengoku-border rounded p-1.5 text-sm focus:border-amber-600 outline-none">
+              <input type="file" id="report-image-file" accept="image/*" class="w-full bg-white border border-sengoku-border rounded p-1.5 text-sm focus:border-amber-600 outline-none">
             </div>
           </div>
           <div>
             <label class="block text-sm text-sengoku-subtext mb-1">戰報備註說明 (隊伍、等級與戰損)</label>
-            <input type="text" id="report-desc" placeholder="例如：加藤嘉明+成田+福島 21級首佔6石，戰損 1,100" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            <input type="text" id="report-desc" placeholder="例如：加藤嘉明+成田+福島 21級首佔6石，戰損 1,100" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
           </div>
-          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
+          <button type="button" onclick="submitAuthorReport()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer">
             <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 發布站長戰報
           </button>
-        </form>
+        </div>
 
         <!-- Gallery Grid -->
         <div id="report-gallery" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
@@ -243,7 +243,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (Supabase Integrated) -->
+    <!-- Section 6: User Comments & Feedback (NO FORM TAG) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
@@ -251,22 +251,25 @@
         </h2>
         <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！</p>
 
-        <!-- Comment Form -->
-        <form onsubmit="submitComment(event); return false;" class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
+        <!-- Comment Box (NO FORM TAG TO PREVENT PAGE RELOAD) -->
+        <div class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">暱稱 / 稱呼</label>
-              <input type="text" id="comment-author" placeholder="例如：開荒武將" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              <input type="text" id="comment-author" placeholder="例如：開荒武將" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
           </div>
           <div>
             <label class="block text-sm text-sengoku-subtext mb-1">留言指正 / 心得補充</label>
-            <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
+            <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
           </div>
-          <button type="submit" id="btn-submit-comment" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer">
+          <button type="button" id="btn-submit-comment" onclick="submitComment()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer">
             <i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言
           </button>
-        </form>
+        </div>
+
+        <!-- Status Message Banner -->
+        <div id="comment-status-msg" class="hidden p-3 rounded text-sm"></div>
 
         <!-- Comment List -->
         <div id="comment-list" class="space-y-3 pt-2">
@@ -382,23 +385,21 @@
       `).join('');
     }
 
-    function submitAuthorReport(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
+    function submitAuthorReport() {
       const pass = document.getElementById("report-admin-pass").value;
       if (pass !== ADMIN_PASSWORD) {
         alert("管理員密碼錯誤！只有站長可以發布戰報貼圖。");
-        return false;
+        return;
       }
 
       const level = document.getElementById("report-level").value;
       const desc = document.getElementById("report-desc").value.trim();
       const fileInput = document.getElementById("report-image-file");
 
-      if (!desc || fileInput.files.length === 0) return false;
+      if (!desc || fileInput.files.length === 0) {
+        alert("請完整填寫戰報說明與選擇圖片！");
+        return;
+      }
 
       const file = fileInput.files[0];
       const reader = new FileReader();
@@ -423,7 +424,6 @@
       };
 
       reader.readAsDataURL(file);
-      return false;
     }
 
     function openLightbox(src) {
@@ -432,7 +432,7 @@
     }
 
     // ==========================================
-    // 4. 留言區邏輯 (徹底防止表單默認跳轉 Reload)
+    // 4. 留言區邏輯 (全離線+雲端連線診斷，保證 100% 寫入與無網址跳轉)
     // ==========================================
     async function loadComments() {
       const container = document.getElementById("comment-list");
@@ -447,23 +447,27 @@
               text: c.text,
               time: c.created_at ? c.created_at.substring(0, 16).replace('T', ' ') : ''
             }));
+          } else if (error) {
+            console.warn("Supabase 讀取備註:", error.message);
           }
         } catch(err) {
-          console.warn("Supabase 讀取離線:", err);
+          console.warn("Supabase 讀取異常:", err);
         }
       }
 
-      if (!loadedData) {
-        const stored = localStorage.getItem("nobunaga_shinsen_comments");
-        loadedData = stored ? JSON.parse(stored) : [];
-      }
+      // 讀取 LocalStorage 作為基礎/備用資料
+      const stored = localStorage.getItem("nobunaga_shinsen_comments");
+      const localComments = stored ? JSON.parse(stored) : [];
 
-      if (loadedData.length === 0) {
+      // 若 Supabase 與 LocalStorage 皆無，顯示友善空提示
+      const allComments = (loadedData && loadedData.length > 0) ? loadedData : localComments;
+
+      if (allComments.length === 0) {
         container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
         return;
       }
 
-      container.innerHTML = loadedData.map(c => `
+      container.innerHTML = allComments.map(c => `
         <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1">
           <div class="flex justify-between items-center">
             <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1.5 text-amber-700"></i> ${escapeHtml(c.author)}</span>
@@ -474,35 +478,39 @@
       `).join('');
     }
 
-    async function submitComment(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
+    async function submitComment() {
       const authorInput = document.getElementById("comment-author");
       const textInput = document.getElementById("comment-text");
       const btn = document.getElementById("btn-submit-comment");
+      const statusMsg = document.getElementById("comment-status-msg");
       
       const author = authorInput.value.trim();
       const text = textInput.value.trim();
-      if(!author || !text) return false;
+
+      if (!author || !text) {
+        alert("請填寫暱稱與留言內容！");
+        return;
+      }
 
       btn.disabled = true;
       btn.innerText = "發送中...";
 
-      try {
-        if (supabase) {
+      let supabaseErrorStr = null;
+
+      if (supabase) {
+        try {
           const { error } = await supabase.from('comments').insert([{ author, text }]);
           if (error) {
-            console.warn("Supabase 寫入提示:", error.message);
+            supabaseErrorStr = error.message;
+            console.error("Supabase 寫入失敗詳情:", error);
           }
+        } catch(err) {
+          supabaseErrorStr = err.message || "連線失敗";
+          console.error("Supabase 連線失敗詳情:", err);
         }
-      } catch(err) {
-        console.warn("Supabase 異步處理異常:", err);
       }
 
-      // 同步寫入 LocalStorage (確保雙重備份與立即無刷新更新)
+      // 無論 Supabase 是否連線成功，必定同步寫入 LocalStorage 本地顯示！
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         const comments = stored ? JSON.parse(stored) : [];
@@ -513,7 +521,7 @@
         comments.unshift({ author, text, time: timeStr });
         localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
       } catch(err) {
-        console.error("LocalStorage 保存失敗:", err);
+        console.error("LocalStorage 本地寫入失敗:", err);
       }
 
       authorInput.value = "";
@@ -521,8 +529,19 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言`;
 
-      await loadComments();
-      return false;
+      if (supabaseErrorStr) {
+        statusMsg.className = "p-3 rounded text-sm bg-amber-100 border border-amber-300 text-amber-900 block";
+        statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已成功新增並呈現在頁面上！<br><span class="text-xs text-amber-700">（註：Supabase 雲端寫入提示："${escapeHtml(supabaseErrorStr)}"。請檢查 Supabase Key 格式是否為 eyJhbG... 的 anon key，或 SQL RLS Policy 是否已建立）</span>`;
+      } else {
+        statusMsg.className = "p-3 rounded text-sm bg-emerald-100 border border-emerald-300 text-emerald-900 block";
+        statusMsg.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> 留言已成功發布並同步！`;
+      }
+
+      setTimeout(() => {
+        statusMsg.className = "hidden";
+      }, 8000);
+
+      loadComments();
     }
 
     function escapeHtml(str) {
