@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>《信長之野望：真戰》PK1/PK2 賽季實戰開荒筆記</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -286,18 +285,46 @@
 
   <script>
     // ==========================================
-    // 1. SUPABASE 設定區
+    // 1. SUPABASE REST API 設定區 (直接使用原生 Fetch REST API 通訊)
     // ==========================================
     const SUPABASE_URL = "https://wtqxsdindrnccxusgcah.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
-    
-    let supabase = null;
-    try {
-      if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // 原生 REST API 讀取留言
+    async function apiFetchComments() {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=created_at.desc`;
+      const res = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
       }
-    } catch(e) {
-      console.warn("Supabase 初始化備註:", e);
+      return await res.json();
+    }
+
+    // 原生 REST API 寫入留言
+    async function apiInsertComment(author, text) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments`;
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({ author, text })
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
+      }
+      return await res.json();
     }
 
     // ==========================================
@@ -432,42 +459,37 @@
     }
 
     // ==========================================
-    // 4. 留言區邏輯
+    // 4. 留言區邏輯 (改為原生 Fetch API，完美與 Supabase 直連)
     // ==========================================
     async function loadComments() {
       const container = document.getElementById("comment-list");
-      let supabaseComments = [];
+      let commentsToDisplay = [];
 
-      if (supabase) {
-        try {
-          const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
-          if (!error && data) {
-            supabaseComments = data.map(c => ({
-              author: c.author,
-              text: c.text,
-              time: c.created_at ? c.created_at.substring(0, 16).replace('T', ' ') : ''
-            }));
-          } else if (error) {
-            console.warn("Supabase 讀取錯誤:", error.message);
-          }
-        } catch(err) {
-          console.warn("Supabase 讀取異常:", err);
+      try {
+        const remoteData = await apiFetchComments();
+        if (Array.isArray(remoteData)) {
+          commentsToDisplay = remoteData.map(c => ({
+            author: c.author,
+            text: c.text,
+            time: c.created_at ? c.created_at.substring(0, 16).replace('T', ' ') : ''
+          }));
         }
+      } catch(err) {
+        console.warn("Supabase REST 讀取警報 (降級為本地):", err);
       }
 
-      // 讀取 LocalStorage
-      const stored = localStorage.getItem("nobunaga_shinsen_comments");
-      const localComments = stored ? JSON.parse(stored) : [];
+      // 如果雲端尚未有資料或連線異常，讀取 LocalStorage 備份
+      if (commentsToDisplay.length === 0) {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        commentsToDisplay = stored ? JSON.parse(stored) : [];
+      }
 
-      // 優先顯示 Supabase 雲端留言，若空則顯示 LocalStorage 留言
-      const finalComments = supabaseComments.length > 0 ? supabaseComments : localComments;
-
-      if (finalComments.length === 0) {
+      if (commentsToDisplay.length === 0) {
         container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
         return;
       }
 
-      container.innerHTML = finalComments.map(c => `
+      container.innerHTML = commentsToDisplay.map(c => `
         <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1">
           <div class="flex justify-between items-center">
             <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1.5 text-amber-700"></i> ${escapeHtml(c.author)}</span>
@@ -495,35 +517,27 @@
       btn.disabled = true;
       btn.innerText = "發送中...";
 
-      let supabaseError = null;
+      let apiSuccess = false;
+      let apiErrorMsg = null;
 
-      if (supabase) {
-        try {
-          const { error } = await supabase.from('comments').insert([{ author, text }]);
-          if (error) {
-            supabaseError = error.message;
-            console.error("Supabase 寫入失敗詳情:", error);
-          }
-        } catch(err) {
-          supabaseError = err.message || "連線異常";
-          console.error("Supabase 寫入異常:", err);
-        }
-      } else {
-        supabaseError = "Supabase 未連線";
+      try {
+        await apiInsertComment(author, text);
+        apiSuccess = true;
+      } catch(err) {
+        apiErrorMsg = err.message;
+        console.error("Supabase REST 寫入失敗:", err);
       }
 
-      // 無論 Supabase 如何，必定同步寫入 LocalStorage 本地顯示！
+      // 本地 LocalStorage 備用寫入
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         const comments = stored ? JSON.parse(stored) : [];
-
         const now = new Date();
         const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
         comments.unshift({ author, text, time: timeStr });
         localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
-      } catch(err) {
-        console.error("LocalStorage 寫入失敗:", err);
+      } catch(e) {
+        console.error("LocalStorage 寫入失敗:", e);
       }
 
       authorInput.value = "";
@@ -531,12 +545,12 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言`;
 
-      if (supabaseError) {
-        statusMsg.className = "p-3 rounded text-sm bg-amber-100 border border-amber-300 text-amber-900 block";
-        statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已新增於您的本機！<br><span class="text-xs text-amber-800 font-normal">（Supabase 雲端寫入提示：<strong>${escapeHtml(supabaseError)}</strong>）</span>`;
-      } else {
+      if (apiSuccess) {
         statusMsg.className = "p-3 rounded text-sm bg-emerald-100 border border-emerald-300 text-emerald-900 block";
-        statusMsg.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> 留言已成功發布並同步到 Supabase 雲端！`;
+        statusMsg.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> 留言成功！已同步寫入 Supabase 雲端與全網。`;
+      } else {
+        statusMsg.className = "p-3 rounded text-sm bg-amber-100 border border-amber-300 text-amber-900 block";
+        statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已發布至本機（雲端提示：${escapeHtml(apiErrorMsg)}）`;
       }
 
       await loadComments();
