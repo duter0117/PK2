@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《信長之野望：真戰》PK1/PK2 賽季實戰開荒筆記</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sengoku: {
+              gold: '#B8860B',
+              red: '#991B1B',
+              bg: '#F9F8F3',
+              card: '#FFFFFF',
+              border: '#E8E3D9',
+              text: '#2C2C2A',
+              subtext: '#5A5A56'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-sengoku-bg text-sengoku-text font-sans min-h-screen">
+  <!-- Header / Banner -->
+  <header class="border-b border-sengoku-border bg-white/90 backdrop-blur sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-700 to-amber-600 flex items-center justify-center font-bold text-white text-xl shadow border border-amber-300">
+          信
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-red-900 tracking-wide">《信長之野望：真戰》PK 賽季實戰開荒攻略</h1>
+          <p class="text-sm text-sengoku-subtext">2026年8月24日 PK1 尾聲實戰記憶整理版</p>
+        </div>
+      </div>
+      <nav class="flex flex-wrap gap-2 text-base font-medium">
+        <a href="#section-notes" class="px-3.5 py-1.5 rounded-lg transition bg-amber-100 text-amber-900 border border-amber-300 font-semibold shadow-sm hover:bg-amber-200">
+          <i class="fa-solid fa-book-bookmark mr-1"></i> 開荒前準備
+        </a>
+        <a href="#section-day1" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-sun mr-1"></i> 第一天
+        </a>
+        <a href="#section-day2" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-moon mr-1"></i> 第二天
+        </a>
+        <a href="#section-calc" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-calculator mr-1"></i> 爆倉試算器
+        </a>
+        <a href="#section-reports" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-camera mr-1"></i> 戰報貼圖
+        </a>
+        <a href="#section-comments" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-comments mr-1"></i> 留言指正
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- Section 1: Player Notes (Original Draft) -->
+    <section id="section-notes" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-sm font-mono px-3 py-1 bg-amber-100 text-amber-900 rounded font-semibold border border-amber-300">
+            <i class="fa-regular fa-calendar-check mr-1"></i> 2026年8月24日 筆記記錄
+          </span>
+          <span class="text-sm text-sengoku-subtext">PK1 賽季尾聲實戰經驗</span>
+        </div>
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2">開荒前準備，與觀念：</h2>
+        <ol class="list-decimal list-inside space-y-3 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>準備低損第一隊組合。我是用加藤嘉明+成田+福島。盡量配合自己前期要出的打架隊伍，同家門或同兵種。準備打雜用低損第二對組合，我是長宗+里見+浦上宗景。</li>
+          <li>建築嚴格只點任務要的。</li>
+          <li>注意進程(天下布武)，有獎勵上升的進程，就要上納等一等再解。</li>
+          <li>前2~3天勞力盡量買滿。</li>
+          <li>每次勞力滿之前，都剛好首佔高一等級的石頭，可以屯田</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 2: Day 1 (Exact User Text) -->
+    <section id="section-day1" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-sun text-amber-600"></i> 第一天：
+        </h2>
+        <ol class="list-decimal list-inside space-y-4 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>落地小判轉換紫將心得。賽季商店該買的買一買。隨便抽幾張卡，不要花太多時間。</li>
+          <li>開局先看環境，腹地大不大，有沒有河流/山脈/盟友，卡住的某一方向的腹地。如果位置真的很糟糕，請果斷東山再起。</li>
+          <li>
+            開局上第二隊，打個3地。##"全下，上第一隊，評估能不能打得過4(一般是不行啦)，不能就打一場3，全下"##。再換回第二隊。 (說明：單純讓第一隊開始回體力)。四級地經驗值是三級地的4~5倍的樣子，盡可能不碰3。<br>
+            <span class="text-sm text-sengoku-subtext pl-6 block mt-1">##可選。原則上是7~8等開4，也可以等2隊解主線任務，拿到經驗值，等第一隊等級高了再開上來。</span>
+          </li>
+          <li>抽卡抽一抽，不要花太多時間。</li>
+          <li>第二隊跟著任務走，一定要一直偵查，有風險就不碰 (混亂，或先遣服傳回的地雷)，民夫開始發力，主城附近開拓只要3體，用光10拓道之後的開拓，就算領地。所以上線就是開拓10塊0級或1級地。然後先用民夫把能戰的土地資源都佔起來(石頭優先)。資源比例攻略說是2:1:1:0.5，但我石頭會多一些，糧食幾乎不打。(但要場場低損，打一些也無妨)</li>
+          <li>看主線任務進度，會送隊伍經驗值，在第一隊體力回滿之前，要上來打一塊能打的最高等級的地。</li>
+          <li>下午14:00之前，盡量拚組頭4 (天守6級+威信1200)，這很極限，沒有沒關係。勢力親善開啟，「徵發促成策」、「物資調達之證」先拿到，其他都送到+資源就好，不用送到滿。</li>
+          <li>17~19開5地(看盟友的戰報評估自己行不行) ，五級地經驗值是四級地的3倍的樣子，盡可能在勞力上限之前開5石來屯一次。</li>
+          <li>漫長的全篇都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
+          <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
+          <li>第九章任務後先不要領取石材、包括評定、前天晚上8點國眾上納先不要領。第二天早上8點前再領出來，用倉庫7爆倉天守7 (忘了，待確認)</li>
+          <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 3: Day 2 (Exact User Text) -->
+    <section id="section-day2" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-moon text-amber-700"></i> 第二天：
+        </h2>
+        <ol class="list-decimal list-inside space-y-4 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>"忘了幾級"開6地(看盟友的戰報評估自己行不行)</li>
+          <li>24:00之前，能的話拚天守8，今天可以多一個評定?不太確定，以後修正。</li>
+          <li>第十章任務後先不要領取石材、包括評定、前天晚上8點國眾上納先不要領。用倉庫9爆倉天守8 (忘了，待確認)</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 4: Calculator -->
+    <section id="section-calc" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm">
+        <h2 class="text-2xl font-bold text-red-900 mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-boxes-stacked text-amber-700"></i> 7/8 級天守爆倉與屯田計算器
+        </h2>
+        <p class="text-sengoku-subtext text-base">選擇當前倉庫等級與輸入預留任務資源，系統將即時自動計算是否足以突破天守升級限制。</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl space-y-4 shadow-sm">
+          <h3 class="text-xl font-bold text-sengoku-text border-b border-sengoku-border pb-2">參數設定</h3>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">目標天守等級</label>
+            <select id="calc-target" onchange="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-3 text-base focus:border-amber-600 outline-none">
+              <option value="280000">天守 7 級 (倉庫 7 級爆倉，需約 280,000 石材)</option>
+              <option value="580000">天守 8 級 (倉庫 9 級爆倉，需約 580,000 石材)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">當前倉庫等級 (倉庫石材上限)</label>
+            <select id="calc-warehouse-level" onchange="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-3 text-base focus:border-amber-600 outline-none">
+              <option value="110000">倉庫 Lv 5 (石材上限 110,000)</option>
+              <option value="160000">倉庫 Lv 6 (石材上限 160,000)</option>
+              <option value="210000" selected>倉庫 Lv 7 (石材上限 210,000)</option>
+              <option value="260000">倉庫 Lv 8 (石材上限 260,000)</option>
+              <option value="310000">倉庫 Lv 9 (石材上限 310,000)</option>
+              <option value="360000">倉庫 Lv 10 (石材上限 360,000)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">預留未領取任務石材總和</label>
+            <input type="number" id="calc-tasks" value="80000" oninput="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-3 text-base focus:border-amber-600 outline-none">
+          </div>
+        </div>
+
+        <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl flex flex-col justify-between shadow-sm">
+          <div>
+            <h3 class="text-xl font-bold text-sengoku-text border-b border-sengoku-border pb-2 mb-4">即時試算結果</h3>
+            <div id="calc-result" class="space-y-4">
+              <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border">
+                <div class="text-sm text-sengoku-subtext">總可拉升石材 (倉庫滿額 + 未領任務石材)</div>
+                <div id="calc-total" class="text-4xl font-mono font-bold text-amber-800 mt-1">290,000</div>
+              </div>
+              <div id="calc-status" class="p-4 rounded-lg text-base font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800">
+                <i class="fa-solid fa-circle-check mr-2"></i> 可成功爆倉升級！無需再升級高階倉庫。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Screenshot Sharing / Report Area -->
+    <section id="section-reports" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-camera text-amber-700"></i> 首佔戰報貼圖區 (6 ~ 9級地)
+        </h2>
+        <p class="text-sengoku-subtext text-base">歡迎戰友上傳分享首佔 6級地、7級地、8級地、9級地 的低損戰報圖片與隊伍陣容！</p>
+
+        <!-- Category Tabs -->
+        <div class="flex gap-2 border-b border-sengoku-border pb-2">
+          <button onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm">全部戰報</button>
+          <button onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">6 級地</button>
+          <button onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">7 級地</button>
+          <button onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">8 級地</button>
+          <button onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
+        </div>
+
+        <!-- Submission Form -->
+        <form onsubmit="submitReport(event)" class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
+          <div class="grid md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">暱稱 / 家門稱呼</label>
+              <input type="text" id="report-author" placeholder="例如：加藤大將" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            </div>
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
+              <select id="report-level" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+                <option value="6">6 級地</option>
+                <option value="7">7 級地</option>
+                <option value="8">8 級地</option>
+                <option value="9">9 級地</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">選擇戰報圖片文件</label>
+              <input type="file" id="report-image-file" accept="image/*" required class="w-full bg-white border border-sengoku-border rounded p-1.5 text-sm focus:border-amber-600 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">隊伍與戰損說明</label>
+            <input type="text" id="report-desc" placeholder="例如：主力加藤隊 21級首佔6石，戰損1200" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+          </div>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
+            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 上傳戰報圖片
+          </button>
+        </form>
+
+        <!-- Gallery Grid -->
+        <div id="report-gallery" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: User Comments & Feedback -->
+    <section id="section-comments" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-comments text-amber-700"></i> 網友留言指正與補充
+        </h2>
+        <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！</p>
+
+        <!-- Comment Form -->
+        <form onsubmit="submitComment(event)" class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">暱稱 / 稱呼</label>
+              <input type="text" id="comment-author" placeholder="例如：開荒武將" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">留言指正 / 心得補充</label>
+            <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
+          </div>
+          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
+            <i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言
+          </button>
+        </form>
+
+        <!-- Comment List -->
+        <div id="comment-list" class="space-y-3 pt-2">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-sengoku-border py-6 text-center text-sm text-sengoku-subtext mt-12 bg-white">
+    《信長之野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
+  </footer>
+
+  <script>
+    function calculateBurst() {
+      const target = parseInt(document.getElementById('calc-target').value);
+      const cap = parseInt(document.getElementById('calc-warehouse-level').value) || 0;
+      const tasks = parseInt(document.getElementById('calc-tasks').value) || 0;
+
+      const total = cap + tasks;
+      document.getElementById('calc-total').innerText = total.toLocaleString();
+
+      const statusEl = document.getElementById('calc-status');
+      if (total >= target) {
+        statusEl.className = "p-4 rounded-lg text-base font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800";
+        statusEl.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> 可成功爆倉升級！無需再升級高階倉庫。';
+      } else {
+        const diff = target - total;
+        statusEl.className = "p-4 rounded-lg text-base font-semibold bg-red-50 border border-red-300 text-red-800";
+        statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2"></i> 資源不足！仍缺 ' + diff.toLocaleString() + ' 石材。';
+      }
+    }
+
+    // 戰報貼圖區邏輯
+    let currentReportCat = 'all';
+
+    function switchReportCategory(cat) {
+      currentReportCat = cat;
+      document.querySelectorAll('.rep-cat-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+        btn.classList.add('text-sengoku-subtext', 'font-semibold');
+      });
+      const activeBtn = document.getElementById('rep-cat-' + cat);
+      activeBtn.classList.remove('text-sengoku-subtext', 'font-semibold');
+      activeBtn.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+
+      loadReports();
+    }
+
+    function loadReports() {
+      const stored = localStorage.getItem("nobunaga_shinsen_reports");
+      const reports = stored ? JSON.parse(stored) : [];
+      const gallery = document.getElementById("report-gallery");
+
+      const filtered = currentReportCat === 'all' ? reports : reports.filter(r => r.level === currentReportCat);
+
+      if (filtered.length === 0) {
+        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">尚無 ${currentReportCat === 'all' ? '' : currentReportCat + ' 級地'} 戰報貼圖，歡迎第一個上傳分享！</div>`;
+        return;
+      }
+
+      gallery.innerHTML = filtered.map(r => `
+        <div class="bg-sengoku-bg border border-sengoku-border rounded-lg overflow-hidden shadow-sm hover:shadow transition">
+          <div class="relative h-48 bg-black/5 overflow-hidden">
+            <img src="${r.imgData}" alt="戰報截圖" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition duration-300" onclick="openLightbox('${r.imgData}')">
+            <span class="absolute top-2 left-2 px-2 py-0.5 bg-red-900 text-white text-xs font-bold rounded shadow">
+              ${r.level} 級地
+            </span>
+          </div>
+          <div class="p-3 space-y-1">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-red-900"><i class="fa-solid fa-user-shield mr-1"></i> ${escapeHtml(r.author)}</span>
+              <span class="text-sengoku-subtext">${r.time}</span>
+            </div>
+            <p class="text-sm font-medium text-sengoku-text line-clamp-2">${escapeHtml(r.desc)}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function submitReport(e) {
+      e.preventDefault();
+      const author = document.getElementById("report-author").value.trim();
+      const level = document.getElementById("report-level").value;
+      const desc = document.getElementById("report-desc").value.trim();
+      const fileInput = document.getElementById("report-image-file");
+
+      if (!author || !desc || fileInput.files.length === 0) return;
+
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(evt) {
+        const imgData = evt.target.result;
+        const stored = localStorage.getItem("nobunaga_shinsen_reports");
+        const reports = stored ? JSON.parse(stored) : [];
+
+        const now = new Date();
+        const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+        reports.unshift({ author, level, desc, imgData, time: timeStr });
+        localStorage.setItem("nobunaga_shinsen_reports", JSON.stringify(reports));
+
+        document.getElementById("report-author").value = "";
+        document.getElementById("report-desc").value = "";
+        fileInput.value = "";
+
+        loadReports();
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    function openLightbox(src) {
+      const w = window.open("");
+      w.document.write(`<body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${src}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body>`);
+    }
+
+    // 清空預設假留言
+    const DEFAULT_COMMENTS = [];
+
+    function loadComments() {
+      const stored = localStorage.getItem("nobunaga_shinsen_comments");
+      const comments = stored ? JSON.parse(stored) : DEFAULT_COMMENTS;
+      const container = document.getElementById("comment-list");
+      
+      if (comments.length === 0) {
+        container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
+        return;
+      }
+
+      container.innerHTML = comments.map(c => `
+        <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1">
+          <div class="flex justify-between items-center">
+            <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1.5 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+            <span class="text-xs text-sengoku-subtext">${c.time}</span>
+          </div>
+          <p class="text-base text-sengoku-text leading-relaxed">${escapeHtml(c.text)}</p>
+        </div>
+      `).join('');
+    }
+
+    function submitComment(e) {
+      e.preventDefault();
+      const authorInput = document.getElementById("comment-author");
+      const textInput = document.getElementById("comment-text");
+      
+      const author = authorInput.value.trim();
+      const text = textInput.value.trim();
+      if(!author || !text) return;
+
+      const stored = localStorage.getItem("nobunaga_shinsen_comments");
+      const comments = stored ? JSON.parse(stored) : [];
+
+      const now = new Date();
+      const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+      comments.unshift({ author, text, time: timeStr });
+      localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+
+      authorInput.value = "";
+      textInput.value = "";
+      loadComments();
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    // 初始化即時計算與數據載入
+    document.addEventListener("DOMContentLoaded", () => {
+      calculateBurst();
+      loadReports();
+      loadComments();
+    });
+  </script>
+</body>
+</html>
