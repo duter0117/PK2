@@ -103,7 +103,7 @@
           <li>看主線任務進度，會送隊伍經驗值，在第一隊體力回滿之前，要上來打一塊能打的最高等級的地。</li>
           <li>下午14:00之前，盡量拚組頭4 (天守6級+威信1200)，這很極限，沒有沒關係。勢力親善開啟，「徵發促成策」、「物資調達之證」先拿到，其他都送到+資源就好，不用送到滿。</li>
           <li>17~19開5地(看盟友的戰報評估自己行不行) ，五級地經驗值是四級地的3倍的樣子，盡可能在勞力上限之前開5石來屯一次。</li>
-          <li>漫長的全篇都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
+          <li>漫長的全部都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
           <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
           <li>第九章任務先不要領取石材、包括評定、前天晚上8點國眾上納，都先不要領。用倉庫7爆倉天守7 (忘了，待確認)</li>
           <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (60s Cooldown Added) -->
+    <!-- Section 6: User Comments & Feedback (With Admin Delete Function) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
@@ -321,7 +321,7 @@
   </main>
 
   <footer class="border-t border-sengoku-border py-6 text-center text-sm text-sengoku-subtext mt-12 bg-white">
-    《信長之野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
+    《信長野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
   </footer>
 
   <script>
@@ -364,6 +364,22 @@
         throw new Error(`[HTTP ${res.status}] ${errText}`);
       }
       return await res.json();
+    }
+
+    async function apiDeleteComment(id) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments?id=eq.${id}`;
+      const res = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
+      }
+      return true;
     }
 
     // ==========================================
@@ -504,10 +520,10 @@
     }
 
     // ==========================================
-    // 4. 留言區分頁、樓層跳轉與 60 秒冷卻機制
+    // 4. 留言區分頁、樓層跳轉、60秒冷卻與站長刪除功能
     // ==========================================
-    const PAGE_SIZE = 30; // 每頁顯示 30 筆留言
-    const COOLDOWN_SECONDS = 60; // 60 秒發文冷卻
+    const PAGE_SIZE = 30;
+    const COOLDOWN_SECONDS = 60;
     let currentPage = 1;
     let allCommentsList = [];
     let cooldownTimer = null;
@@ -531,6 +547,7 @@
       }
 
       allCommentsList = rawData.map((item, idx) => ({
+        id: item.id || null,
         floor: idx + 1,
         author: item.author,
         text: item.text,
@@ -606,7 +623,12 @@
               </span>
               <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1 text-amber-700"></i> ${escapeHtml(c.author)}</span>
             </div>
-            <span class="text-xs text-sengoku-subtext">${c.time}</span>
+            <div class="flex items-center gap-3">
+              <span class="text-xs text-sengoku-subtext">${c.time}</span>
+              <button type="button" onclick="deleteCommentByAdmin(${c.id}, ${c.floor})" class="text-xs text-red-700 hover:text-red-900 font-semibold border border-red-200 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded transition">
+                <i class="fa-solid fa-trash-can mr-1"></i> 刪除
+              </button>
+            </div>
           </div>
           <p class="text-base text-sengoku-text leading-relaxed pt-1">${escapeHtml(c.text)}</p>
         </div>
@@ -615,6 +637,46 @@
       pageInfo.innerText = `第 ${currentPage} / ${totalPages} 頁 (共 ${totalCount} 筆留言，每頁 ${PAGE_SIZE} 筆)`;
       btnPrev.disabled = (currentPage === 1);
       btnNext.disabled = (currentPage === totalPages);
+    }
+
+    async function deleteCommentByAdmin(id, floor) {
+      const pass = prompt(`【站長刪除確認】請輸入管理員密碼以刪除 #${floor} 樓留言：`);
+      if (pass === null) return; // 使用者取消
+
+      if (pass !== ADMIN_PASSWORD) {
+        alert("管理員密碼錯誤，無法刪除留言！");
+        return;
+      }
+
+      if (!confirm(`確定要刪除 #${floor} 樓留言嗎？刪除後無法復原。`)) {
+        return;
+      }
+
+      let deletedInCloud = false;
+
+      if (id) {
+        try {
+          await apiDeleteComment(id);
+          deletedInCloud = true;
+        } catch(err) {
+          console.warn("Supabase 雲端刪除失敗（可能需要設置 DELETE RLS Policy）:", err);
+        }
+      }
+
+      // 同步刪除 LocalStorage 備份
+      try {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        if (stored) {
+          let comments = JSON.parse(stored);
+          comments = comments.filter((c, idx) => (idx + 1) !== floor);
+          localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+        }
+      } catch(e) {
+        console.error("LocalStorage 刪除失敗:", e);
+      }
+
+      alert(`已成功刪除 #${floor} 樓留言！`);
+      await loadComments();
     }
 
     function changePage(delta) {
@@ -695,7 +757,6 @@
         console.error("LocalStorage 寫入失敗:", e);
       }
 
-      // 記下成功發文時間戳，並啟動 60 秒冷卻
       localStorage.setItem("last_comment_time", Date.now().toString());
 
       authorInput.value = "";
