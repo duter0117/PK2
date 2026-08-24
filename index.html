@@ -210,7 +210,7 @@
           <div class="grid md:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">管理員密碼</label>
-              <input type="password" id="report-admin-pass" placeholder="預設密碼: duter0117" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              <input type="password" id="report-admin-pass" placeholder="請輸入站長密碼" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
@@ -285,12 +285,11 @@
 
   <script>
     // ==========================================
-    // 1. SUPABASE REST API 設定區 (直接使用原生 Fetch REST API 通訊)
+    // 1. SUPABASE REST API 設定區
     // ==========================================
     const SUPABASE_URL = "https://wtqxsdindrnccxusgcah.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
 
-    // 原生 REST API 讀取留言
     async function apiFetchComments() {
       const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=created_at.desc`;
       const res = await fetch(endpoint, {
@@ -307,7 +306,6 @@
       return await res.json();
     }
 
-    // 原生 REST API 寫入留言
     async function apiInsertComment(author, text) {
       const endpoint = `${SUPABASE_URL}/rest/v1/comments`;
       const res = await fetch(endpoint, {
@@ -353,7 +351,7 @@
     // 3. 戰報貼圖區
     // ==========================================
     let currentReportCat = 'all';
-    const ADMIN_PASSWORD = "duter0117";
+    const ADMIN_PASSWORD = "856595"; // 站長專用發布密碼
 
     function toggleReportUploadForm() {
       const form = document.getElementById("author-upload-form");
@@ -459,7 +457,7 @@
     }
 
     // ==========================================
-    // 4. 留言區邏輯 (改為原生 Fetch API，完美與 Supabase 直連)
+    // 4. 留言區邏輯
     // ==========================================
     async function loadComments() {
       const container = document.getElementById("comment-list");
@@ -478,7 +476,6 @@
         console.warn("Supabase REST 讀取警報 (降級為本地):", err);
       }
 
-      // 如果雲端尚未有資料或連線異常，讀取 LocalStorage 備份
       if (commentsToDisplay.length === 0) {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         commentsToDisplay = stored ? JSON.parse(stored) : [];
@@ -528,7 +525,6 @@
         console.error("Supabase REST 寫入失敗:", err);
       }
 
-      // 本地 LocalStorage 備用寫入
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         const comments = stored ? JSON.parse(stored) : [];
