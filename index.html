@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (With Admin Delete Function) -->
+    <!-- Section 6: User Comments & Feedback (Soft-Delete Supported) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
@@ -321,7 +321,7 @@
   </main>
 
   <footer class="border-t border-sengoku-border py-6 text-center text-sm text-sengoku-subtext mt-12 bg-white">
-    《信長野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
+    《信長之野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
   </footer>
 
   <script>
@@ -330,6 +330,7 @@
     // ==========================================
     const SUPABASE_URL = "https://wtqxsdindrnccxusgcah.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
+    const SOFT_DELETE_MARK = "該文章已被站長刪除";
 
     async function apiFetchComments() {
       const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=id.asc`;
@@ -366,14 +367,17 @@
       return await res.json();
     }
 
-    async function apiDeleteComment(id) {
+    async function apiSoftDeleteComment(id) {
       const endpoint = `${SUPABASE_URL}/rest/v1/comments?id=eq.${id}`;
       const res = await fetch(endpoint, {
-        method: "DELETE",
+        method: "PATCH",
         headers: {
           "apikey": SUPABASE_ANON_KEY,
-          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
-        }
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({ text: SOFT_DELETE_MARK })
       });
       if (!res.ok) {
         const errText = await res.text();
@@ -520,7 +524,7 @@
     }
 
     // ==========================================
-    // 4. 留言區分頁、樓層跳轉、60秒冷卻與站長刪除功能
+    // 4. 留言區分頁、樓層跳轉、60秒冷卻與站長軟刪除(保留樓號)
     // ==========================================
     const PAGE_SIZE = 30;
     const COOLDOWN_SECONDS = 60;
@@ -551,6 +555,7 @@
         floor: idx + 1,
         author: item.author,
         text: item.text,
+        isDeleted: item.text === SOFT_DELETE_MARK,
         time: item.created_at ? item.created_at.substring(0, 16).replace('T', ' ') : (item.time || '')
       }));
 
@@ -614,25 +619,46 @@
       const startIndex = (currentPage - 1) * PAGE_SIZE;
       const pageData = reversedComments.slice(startIndex, startIndex + PAGE_SIZE);
 
-      container.innerHTML = pageData.map(c => `
-        <div id="comment-floor-${c.floor}" class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1 transition duration-500">
-          <div class="flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 font-mono font-bold text-xs rounded">
-                #${c.floor} 樓
-              </span>
-              <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+      container.innerHTML = pageData.map(c => {
+        if (c.isDeleted) {
+          return `
+            <div id="comment-floor-${c.floor}" class="p-4 bg-gray-100/80 rounded-lg border border-gray-200 space-y-1 transition duration-500 opacity-75">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 bg-gray-200 text-gray-700 font-mono font-bold text-xs rounded">
+                    #${c.floor} 樓
+                  </span>
+                  <span class="font-bold text-gray-500 text-sm"><i class="fa-solid fa-user-slash mr-1"></i> ${escapeHtml(c.author)}</span>
+                </div>
+                <span class="text-xs text-gray-400">${c.time}</span>
+              </div>
+              <p class="text-sm text-gray-500 italic pt-1 flex items-center gap-1.5">
+                <i class="fa-solid fa-ban text-red-700"></i> ${SOFT_DELETE_MARK}
+              </p>
             </div>
-            <div class="flex items-center gap-3">
-              <span class="text-xs text-sengoku-subtext">${c.time}</span>
-              <button type="button" onclick="deleteCommentByAdmin(${c.id}, ${c.floor})" class="text-xs text-red-700 hover:text-red-900 font-semibold border border-red-200 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded transition">
-                <i class="fa-solid fa-trash-can mr-1"></i> 刪除
-              </button>
+          `;
+        }
+
+        return `
+          <div id="comment-floor-${c.floor}" class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1 transition duration-500">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 font-mono font-bold text-xs rounded">
+                  #${c.floor} 樓
+                </span>
+                <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs text-sengoku-subtext">${c.time}</span>
+                <button type="button" onclick="deleteCommentByAdmin(${c.id}, ${c.floor})" class="text-xs text-red-700 hover:text-red-900 font-semibold border border-red-200 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded transition">
+                  <i class="fa-solid fa-trash-can mr-1"></i> 刪除
+                </button>
+              </div>
             </div>
+            <p class="text-base text-sengoku-text leading-relaxed pt-1">${escapeHtml(c.text)}</p>
           </div>
-          <p class="text-base text-sengoku-text leading-relaxed pt-1">${escapeHtml(c.text)}</p>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       pageInfo.innerText = `第 ${currentPage} / ${totalPages} 頁 (共 ${totalCount} 筆留言，每頁 ${PAGE_SIZE} 筆)`;
       btnPrev.disabled = (currentPage === 1);
@@ -640,42 +666,42 @@
     }
 
     async function deleteCommentByAdmin(id, floor) {
-      const pass = prompt(`【站長刪除確認】請輸入管理員密碼以刪除 #${floor} 樓留言：`);
-      if (pass === null) return; // 使用者取消
+      const pass = prompt(`【站長註記刪除】請輸入管理員密碼，將 #${floor} 樓註記為已被刪除：`);
+      if (pass === null) return;
 
       if (pass !== ADMIN_PASSWORD) {
-        alert("管理員密碼錯誤，無法刪除留言！");
+        alert("管理員密碼錯誤，無法進行操作！");
         return;
       }
 
-      if (!confirm(`確定要刪除 #${floor} 樓留言嗎？刪除後無法復原。`)) {
+      if (!confirm(`確定要將 #${floor} 樓留言註記為「${SOFT_DELETE_MARK}」嗎？樓層編號將會保留。`)) {
         return;
       }
-
-      let deletedInCloud = false;
 
       if (id) {
         try {
-          await apiDeleteComment(id);
-          deletedInCloud = true;
+          await apiSoftDeleteComment(id);
         } catch(err) {
-          console.warn("Supabase 雲端刪除失敗（可能需要設置 DELETE RLS Policy）:", err);
+          console.warn("Supabase 雲端 PATCH 標記失敗 (可能需要設定 UPDATE RLS Policy):", err);
         }
       }
 
-      // 同步刪除 LocalStorage 備份
+      // 同步寫入 LocalStorage 備份
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         if (stored) {
           let comments = JSON.parse(stored);
-          comments = comments.filter((c, idx) => (idx + 1) !== floor);
-          localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+          const targetIndex = floor - 1;
+          if (comments[targetIndex]) {
+            comments[targetIndex].text = SOFT_DELETE_MARK;
+            localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+          }
         }
       } catch(e) {
-        console.error("LocalStorage 刪除失敗:", e);
+        console.error("LocalStorage 註記刪除失敗:", e);
       }
 
-      alert(`已成功刪除 #${floor} 樓留言！`);
+      alert(`已成功將 #${floor} 樓留言標記為已被站長刪除！`);
       await loadComments();
     }
 
