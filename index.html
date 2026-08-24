@@ -103,7 +103,7 @@
           <li>看主線任務進度，會送隊伍經驗值，在第一隊體力回滿之前，要上來打一塊能打的最高等級的地。</li>
           <li>下午14:00之前，盡量拚組頭4 (天守6級+威信1200)，這很極限，沒有沒關係。勢力親善開啟，「徵發促成策」、「物資調達之證」先拿到，其他都送到+資源就好，不用送到滿。</li>
           <li>17~19開5地(看盟友的戰報評估自己行不行) ，五級地經驗值是四級地的3倍的樣子，盡可能在勞力上限之前開5石來屯一次。</li>
-          <li>漫長的全部都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
+          <li>漫長的全篇都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
           <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
           <li>第九章任務先不要領取石材、包括評定、前天晚上8點國眾上納，都先不要領。用倉庫7爆倉天守7 (忘了，待確認)</li>
           <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (Soft-Delete & Restore Supported) -->
+    <!-- Section 6: User Comments & Feedback (SHA-256 Hashed Admin Security) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
@@ -332,6 +332,18 @@
     const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
     const DISPLAY_DELETED_TEXT = "該文章已被站長刪除";
     const DELETE_PREFIX = "[DELETED_BY_ADMIN]";
+
+    // SHA-256 Hash of admin password (856595)
+    const ADMIN_PASS_HASH = "757fb59e06bccb7c5ea140760a2dd03211a2a17e6f7d684d86b42cd5876ff318";
+
+    async function verifyAdminPassword(inputPass) {
+      if (!inputPass) return false;
+      const msgUint8 = new TextEncoder().encode(inputPass);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex === ADMIN_PASS_HASH;
+    }
 
     async function apiFetchComments() {
       const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=id.asc`;
@@ -419,7 +431,6 @@
     // 3. 戰報貼圖區
     // ==========================================
     let currentReportCat = 'all';
-    const ADMIN_PASSWORD = "856595";
 
     function toggleReportUploadForm() {
       const form = document.getElementById("author-upload-form");
@@ -478,9 +489,11 @@
       `).join('');
     }
 
-    function submitAuthorReport() {
+    async function submitAuthorReport() {
       const pass = document.getElementById("report-admin-pass").value;
-      if (pass !== ADMIN_PASSWORD) {
+      const isValid = await verifyAdminPassword(pass);
+
+      if (!isValid) {
         alert("管理員密碼錯誤！只有站長可以發布戰報貼圖。");
         return;
       }
@@ -525,7 +538,7 @@
     }
 
     // ==========================================
-    // 4. 留言區分頁、樓層跳轉、60秒冷卻與站長註記刪除/恢復機制
+    // 4. 留言區分頁、樓層跳轉、60秒冷卻與 SHA-256 站長管理
     // ==========================================
     const PAGE_SIZE = 30;
     const COOLDOWN_SECONDS = 60;
@@ -682,7 +695,8 @@
       const pass = prompt(`【站長註記刪除】請輸入管理員密碼，將 #${floor} 樓標記為已刪除：`);
       if (pass === null) return;
 
-      if (pass !== ADMIN_PASSWORD) {
+      const isValid = await verifyAdminPassword(pass);
+      if (!isValid) {
         alert("管理員密碼錯誤，無法進行操作！");
         return;
       }
@@ -700,7 +714,6 @@
         }
       }
 
-      // 同步寫入 LocalStorage
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         if (stored) {
@@ -723,7 +736,8 @@
       const pass = prompt(`【站長留言恢復】請輸入管理員密碼，恢復 #${floor} 樓原留言內容：`);
       if (pass === null) return;
 
-      if (pass !== ADMIN_PASSWORD) {
+      const isValid = await verifyAdminPassword(pass);
+      if (!isValid) {
         alert("管理員密碼錯誤，無法進行操作！");
         return;
       }
@@ -741,11 +755,10 @@
         }
       }
 
-      // 同步寫入 LocalStorage
       try {
         const stored = localStorage.getItem("nobunaga_shinsen_comments");
         if (stored) {
-          let comments = JSON.parse(stored)
+          let comments = JSON.parse(stored);
           const idx = floor - 1;
           if (comments[idx]) {
             comments[idx].text = restoredText;
@@ -784,7 +797,7 @@
       setTimeout(() => {
         const el = document.getElementById(`comment-floor-${targetFloor}`);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.scrollIntoView({ behavior: 'smooth' });
           el.classList.add('ring-2', 'ring-red-600', 'bg-amber-50');
           setTimeout(() => {
             el.classList.remove('ring-2', 'ring-red-600', 'bg-amber-50');
