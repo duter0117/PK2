@@ -103,7 +103,7 @@
           <li>看主線任務進度，會送隊伍經驗值，在第一隊體力回滿之前，要上來打一塊能打的最高等級的地。</li>
           <li>下午14:00之前，盡量拚組頭4 (天守6級+威信1200)，這很極限，沒有沒關係。勢力親善開啟，「徵發促成策」、「物資調達之證」先拿到，其他都送到+資源就好，不用送到滿。</li>
           <li>17~19開5地(看盟友的戰報評估自己行不行) ，五級地經驗值是四級地的3倍的樣子，盡可能在勞力上限之前開5石來屯一次。</li>
-          <li>漫長的全部都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
+          <li>漫長的全篇都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
           <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
           <li>第九章任務先不要領取石材、包括評定、前天晚上8點國眾上納，都先不要領。用倉庫7爆倉天守7 (忘了，待確認)</li>
           <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
@@ -259,7 +259,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback (30 per page) -->
+    <!-- Section 6: User Comments & Feedback (60s Cooldown Added) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
@@ -276,7 +276,7 @@
           </div>
         </div>
 
-        <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！</p>
+        <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！<span class="text-xs text-red-800 font-semibold pl-1">（設有 60 秒發文冷卻）</span></p>
 
         <!-- Comment Box -->
         <div class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
@@ -290,7 +290,7 @@
             <label class="block text-sm text-sengoku-subtext mb-1">留言指正 / 心得補充</label>
             <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
           </div>
-          <button type="button" id="btn-submit-comment" onclick="submitComment()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer">
+          <button type="button" id="btn-submit-comment" onclick="submitComment()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
             <i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言
           </button>
         </div>
@@ -504,11 +504,13 @@
     }
 
     // ==========================================
-    // 4. 留言區分頁與樓層跳轉邏輯 (調整為每頁 30 筆)
+    // 4. 留言區分頁、樓層跳轉與 60 秒冷卻機制
     // ==========================================
     const PAGE_SIZE = 30; // 每頁顯示 30 筆留言
+    const COOLDOWN_SECONDS = 60; // 60 秒發文冷卻
     let currentPage = 1;
     let allCommentsList = [];
+    let cooldownTimer = null;
 
     async function loadComments() {
       let rawData = null;
@@ -536,6 +538,38 @@
       }));
 
       renderCurrentPageComments();
+      checkExistingCooldown();
+    }
+
+    function checkExistingCooldown() {
+      const lastCommentTime = localStorage.getItem("last_comment_time");
+      if (lastCommentTime) {
+        const elapsed = Math.floor((Date.now() - parseInt(lastCommentTime)) / 1000);
+        if (elapsed < COOLDOWN_SECONDS) {
+          startCooldown(COOLDOWN_SECONDS - elapsed);
+        }
+      }
+    }
+
+    function startCooldown(secondsLeft) {
+      const btn = document.getElementById("btn-submit-comment");
+      btn.disabled = true;
+      let left = secondsLeft;
+
+      if (cooldownTimer) clearInterval(cooldownTimer);
+
+      btn.innerHTML = `<i class="fa-solid fa-hourglass-half mr-1.5"></i> 請等待 ${left}s`;
+
+      cooldownTimer = setInterval(() => {
+        left--;
+        if (left <= 0) {
+          clearInterval(cooldownTimer);
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言`;
+        } else {
+          btn.innerHTML = `<i class="fa-solid fa-hourglass-half mr-1.5"></i> 請等待 ${left}s`;
+        }
+      }, 1000);
     }
 
     function renderCurrentPageComments() {
@@ -617,9 +651,18 @@
     }
 
     async function submitComment() {
+      const lastCommentTime = localStorage.getItem("last_comment_time");
+      if (lastCommentTime) {
+        const elapsed = Math.floor((Date.now() - parseInt(lastCommentTime)) / 1000);
+        if (elapsed < COOLDOWN_SECONDS) {
+          const remaining = COOLDOWN_SECONDS - elapsed;
+          alert(`發文冷卻中！請等待 ${remaining} 秒後再試。`);
+          return;
+        }
+      }
+
       const authorInput = document.getElementById("comment-author");
       const textInput = document.getElementById("comment-text");
-      const btn = document.getElementById("btn-submit-comment");
       const statusMsg = document.getElementById("comment-status-msg");
       
       const author = authorInput.value.trim();
@@ -629,9 +672,6 @@
         alert("請填寫暱稱與留言內容！");
         return;
       }
-
-      btn.disabled = true;
-      btn.innerText = "發送中...";
 
       let apiSuccess = false;
       let apiErrorMsg = null;
@@ -655,10 +695,11 @@
         console.error("LocalStorage 寫入失敗:", e);
       }
 
+      // 記下成功發文時間戳，並啟動 60 秒冷卻
+      localStorage.setItem("last_comment_time", Date.now().toString());
+
       authorInput.value = "";
       textInput.value = "";
-      btn.disabled = false;
-      btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言`;
 
       if (apiSuccess) {
         statusMsg.className = "p-3 rounded text-sm bg-emerald-100 border border-emerald-300 text-emerald-900 block";
@@ -670,6 +711,7 @@
 
       currentPage = 1;
       await loadComments();
+      startCooldown(COOLDOWN_SECONDS);
     }
 
     function escapeHtml(str) {
