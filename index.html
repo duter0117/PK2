@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>《信長之野望：真戰》PK1/PK2 賽季實戰開荒筆記</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -180,13 +181,18 @@
       </div>
     </section>
 
-    <!-- Section 5: Screenshot Sharing / Report Area -->
+    <!-- Section 5: Screenshot Sharing / Report Area (Author Only Mode) -->
     <section id="section-reports" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
-        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
-          <i class="fa-solid fa-camera text-amber-700"></i> 首佔戰報貼圖區 (6 ~ 9級地)
-        </h2>
-        <p class="text-sengoku-subtext text-base">歡迎戰友上傳分享首佔 6級地、7級地、8級地、9級地 的低損戰報圖片與隊伍陣容！</p>
+        <div class="flex justify-between items-center border-b border-sengoku-border pb-2">
+          <h2 class="text-2xl font-bold text-red-900 flex items-center gap-2">
+            <i class="fa-solid fa-camera text-amber-700"></i> 首佔戰報展示區 (6 ~ 9級地)
+          </h2>
+          <button onclick="toggleReportUploadForm()" class="text-xs text-amber-800 hover:text-red-900 border border-amber-300 rounded px-2.5 py-1 bg-amber-50">
+            <i class="fa-solid fa-lock mr-1"></i> 站長發布入口
+          </button>
+        </div>
+        <p class="text-sengoku-subtext text-base">此區展示作者親自驗證的首佔 6級地、7級地、8級地、9級地 戰報與低損陣容。</p>
 
         <!-- Category Tabs -->
         <div class="flex gap-2 border-b border-sengoku-border pb-2">
@@ -197,12 +203,15 @@
           <button onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
         </div>
 
-        <!-- Submission Form -->
-        <form onsubmit="submitReport(event)" class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
+        <!-- Author Submission Form (Hidden by default, Password Protected) -->
+        <form id="author-upload-form" onsubmit="submitAuthorReport(event)" class="hidden space-y-4 bg-amber-50/80 p-5 rounded-lg border border-amber-300">
+          <div class="text-sm font-bold text-amber-900 flex items-center gap-1 border-b border-amber-200 pb-2">
+            <i class="fa-solid fa-key text-amber-700"></i> 站長專用戰報上壇通道
+          </div>
           <div class="grid md:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm text-sengoku-subtext mb-1">暱稱 / 家門稱呼</label>
-              <input type="text" id="report-author" placeholder="例如：加藤大將" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              <label class="block text-sm text-sengoku-subtext mb-1">管理員密碼</label>
+              <input type="password" id="report-admin-pass" placeholder="輸入站長密碼 (預設: duter0117)" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
@@ -214,16 +223,16 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm text-sengoku-subtext mb-1">選擇戰報圖片文件</label>
+              <label class="block text-sm text-sengoku-subtext mb-1">戰報截圖檔案</label>
               <input type="file" id="report-image-file" accept="image/*" required class="w-full bg-white border border-sengoku-border rounded p-1.5 text-sm focus:border-amber-600 outline-none">
             </div>
           </div>
           <div>
-            <label class="block text-sm text-sengoku-subtext mb-1">隊伍與戰損說明</label>
-            <input type="text" id="report-desc" placeholder="例如：主力加藤隊 21級首佔6石，戰損1200" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            <label class="block text-sm text-sengoku-subtext mb-1">戰報備註說明 (隊伍、等級與戰損)</label>
+            <input type="text" id="report-desc" placeholder="例如：加藤嘉明+成田+福島 21級首佔6石，戰損 1,100" required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
           </div>
           <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
-            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 上傳戰報圖片
+            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 發布站長戰報
           </button>
         </form>
 
@@ -234,7 +243,7 @@
       </div>
     </section>
 
-    <!-- Section 6: User Comments & Feedback -->
+    <!-- Section 6: User Comments & Feedback (Supabase Integrated) -->
     <section id="section-comments" class="space-y-6 scroll-mt-24">
       <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
         <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
@@ -254,7 +263,7 @@
             <label class="block text-sm text-sengoku-subtext mb-1">留言指正 / 心得補充</label>
             <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." required class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
           </div>
-          <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
+          <button type="submit" id="btn-submit-comment" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow">
             <i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言
           </button>
         </form>
@@ -273,6 +282,20 @@
   </footer>
 
   <script>
+    // ==========================================
+    // 1. SUPABASE 設定區 (填入您的 Supabase 資訊)
+    // ==========================================
+    const SUPABASE_URL = "";       // 例如: "https://xyz.supabase.co"
+    const SUPABASE_ANON_KEY = "";  // 例如: "eyJhbGciOi..."
+    
+    let supabase = null;
+    if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    }
+
+    // ==========================================
+    // 2. 7/8級天守爆倉計算器
+    // ==========================================
     function calculateBurst() {
       const target = parseInt(document.getElementById('calc-target').value);
       const cap = parseInt(document.getElementById('calc-warehouse-level').value) || 0;
@@ -292,8 +315,16 @@
       }
     }
 
-    // 戰報貼圖區邏輯
+    // ==========================================
+    // 3. 戰報貼圖區 (站長專用發布模式)
+    // ==========================================
     let currentReportCat = 'all';
+    const ADMIN_PASSWORD = "duter0117"; // 預設站長發布密碼
+
+    function toggleReportUploadForm() {
+      const form = document.getElementById("author-upload-form");
+      form.classList.toggle("hidden");
+    }
 
     function switchReportCategory(cat) {
       currentReportCat = cat;
@@ -316,7 +347,7 @@
       const filtered = currentReportCat === 'all' ? reports : reports.filter(r => r.level === currentReportCat);
 
       if (filtered.length === 0) {
-        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">尚無 ${currentReportCat === 'all' ? '' : currentReportCat + ' 級地'} 戰報貼圖，歡迎第一個上傳分享！</div>`;
+        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">目前尚無 ${currentReportCat === 'all' ? '' : currentReportCat + ' 級地'} 戰報展示。</div>`;
         return;
       }
 
@@ -330,7 +361,7 @@
           </div>
           <div class="p-3 space-y-1">
             <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-red-900"><i class="fa-solid fa-user-shield mr-1"></i> ${escapeHtml(r.author)}</span>
+              <span class="font-bold text-red-900"><i class="fa-solid fa-user-shield mr-1"></i> 站長專屬戰報</span>
               <span class="text-sengoku-subtext">${r.time}</span>
             </div>
             <p class="text-sm font-medium text-sengoku-text line-clamp-2">${escapeHtml(r.desc)}</p>
@@ -339,14 +370,19 @@
       `).join('');
     }
 
-    function submitReport(e) {
+    function submitAuthorReport(e) {
       e.preventDefault();
-      const author = document.getElementById("report-author").value.trim();
+      const pass = document.getElementById("report-admin-pass").value;
+      if (pass !== ADMIN_PASSWORD) {
+        alert("管理員密碼錯誤！只有站長可以發布戰報貼圖。");
+        return;
+      }
+
       const level = document.getElementById("report-level").value;
       const desc = document.getElementById("report-desc").value.trim();
       const fileInput = document.getElementById("report-image-file");
 
-      if (!author || !desc || fileInput.files.length === 0) return;
+      if (!desc || fileInput.files.length === 0) return;
 
       const file = fileInput.files[0];
       const reader = new FileReader();
@@ -359,14 +395,15 @@
         const now = new Date();
         const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
-        reports.unshift({ author, level, desc, imgData, time: timeStr });
+        reports.unshift({ author: "站長", level, desc, imgData, time: timeStr });
         localStorage.setItem("nobunaga_shinsen_reports", JSON.stringify(reports));
 
-        document.getElementById("report-author").value = "";
         document.getElementById("report-desc").value = "";
         fileInput.value = "";
+        document.getElementById("author-upload-form").classList.add("hidden");
 
         loadReports();
+        alert("站長戰報發布成功！");
       };
 
       reader.readAsDataURL(file);
@@ -377,14 +414,39 @@
       w.document.write(`<body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${src}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body>`);
     }
 
-    // 清空預設假留言
-    const DEFAULT_COMMENTS = [];
-
-    function loadComments() {
-      const stored = localStorage.getItem("nobunaga_shinsen_comments");
-      const comments = stored ? JSON.parse(stored) : DEFAULT_COMMENTS;
+    // ==========================================
+    // 4. 留言區邏輯 (串接 Supabase + 本地備用)
+    // ==========================================
+    async function loadComments() {
       const container = document.getElementById("comment-list");
-      
+
+      if (supabase) {
+        try {
+          const { data, error } = await supabase.from('comments').select('*').order('created_at', { ascending: false });
+          if (!error && data) {
+            if (data.length === 0) {
+              container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
+              return;
+            }
+            container.innerHTML = data.map(c => `
+              <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1">
+                <div class="flex justify-between items-center">
+                  <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1.5 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+                  <span class="text-xs text-sengoku-subtext">${c.created_at ? c.created_at.substring(0, 16).replace('T', ' ') : ''}</span>
+                </div>
+                <p class="text-base text-sengoku-text leading-relaxed">${escapeHtml(c.text)}</p>
+              </div>
+            `).join('');
+            return;
+          }
+        } catch(err) {
+          console.warn("Supabase 讀取離線，切換為本地模式", err);
+        }
+      }
+
+      // 備用 LocalStorage 讀取
+      const stored = localStorage.getItem("nobunaga_shinsen_comments");
+      const comments = stored ? JSON.parse(stored) : [];
       if (comments.length === 0) {
         container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
         return;
@@ -401,7 +463,7 @@
       `).join('');
     }
 
-    function submitComment(e) {
+    async function submitComment(e) {
       e.preventDefault();
       const authorInput = document.getElementById("comment-author");
       const textInput = document.getElementById("comment-text");
@@ -410,6 +472,23 @@
       const text = textInput.value.trim();
       if(!author || !text) return;
 
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('comments').insert([{ author, text }]);
+          if (!error) {
+            authorInput.value = "";
+            textInput.value = "";
+            loadComments();
+            return;
+          } else {
+            console.error("Supabase 寫入失敗:", error);
+          }
+        } catch(err) {
+          console.error("Supabase 離線失敗:", err);
+        }
+      }
+
+      // 備用 LocalStorage 寫入
       const stored = localStorage.getItem("nobunaga_shinsen_comments");
       const comments = stored ? JSON.parse(stored) : [];
 
@@ -430,7 +509,7 @@
       });
     }
 
-    // 初始化即時計算與數據載入
+    // 初始化數據載入
     document.addEventListener("DOMContentLoaded", () => {
       calculateBurst();
       loadReports();
