@@ -81,6 +81,7 @@
           <li>注意進程(天下布武)，有獎勵上升的進程，上納就要等一等再解。</li>
           <li>前2~3天勞力盡量買滿。</li>
           <li>每次勞力滿之前，都剛好首佔高一等級的石頭，可以屯田</li>
+          <li>前期翻車不要緊張，前面就算大翻，死兵也沒有太多，還會返還。經驗值有賺到就好。(例如打四地一場死300兵，打五地翻車了死1500兵，但其實你翻車這場經驗值=打四地4場，沒那麼虧。)</li>
         </ol>
       </div>
     </section>
@@ -107,6 +108,7 @@
           <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
           <li>第九章任務先不要領取石材、包括評定、前天晚上8點國眾上納，都先不要領。用倉庫7爆倉天守7 (忘了，待確認)</li>
           <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
+          <li>24:00換日前記得買勞力，我常常第一天忘記。</li>
         </ol>
       </div>
     </section>
@@ -211,12 +213,13 @@
         <p class="text-sengoku-subtext text-base">此區展示作者親自驗證的首佔 6級地、7級地、8級地、9級地 戰報與低損陣容。</p>
 
         <!-- Category Tabs -->
-        <div class="flex gap-2 border-b border-sengoku-border pb-2">
-          <button type="button" onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm">全部戰報</button>
-          <button type="button" onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">6 級地</button>
-          <button type="button" onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">7 級地</button>
-          <button type="button" onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">8 級地</button>
-          <button type="button" onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white">9 級地</button>
+        <div class="flex gap-2 border-b border-sengoku-border pb-2 overflow-x-auto">
+          <button type="button" onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm shrink-0">全部戰報</button>
+          <button type="button" onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">6 級地</button>
+          <button type="button" onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">7 級地</button>
+          <button type="button" onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">8 級地</button>
+          <button type="button" onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">9 級地</button>
+          <button type="button" onclick="switchReportCategory('wipe')" id="rep-cat-wipe" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">翻車戰報</button>
         </div>
 
         <!-- Author Submission Box -->
@@ -230,12 +233,13 @@
               <input type="password" id="report-admin-pass" placeholder="請輸入站長密碼" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
             </div>
             <div>
-              <label class="block text-sm text-sengoku-subtext mb-1">土地等級</label>
+              <label class="block text-sm text-sengoku-subtext mb-1">土地等級 / 類別</label>
               <select id="report-level" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
                 <option value="6">6 級地</option>
                 <option value="7">7 級地</option>
                 <option value="8">8 級地</option>
                 <option value="9">9 級地</option>
+                <option value="wipe">翻車戰報</option>
               </select>
             </div>
             <div>
@@ -466,7 +470,7 @@
       const filtered = currentReportCat === 'all' ? reports : reports.filter(r => r.level === currentReportCat);
 
       if (filtered.length === 0) {
-        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">目前尚無 ${currentReportCat === 'all' ? '' : currentReportCat + ' 級地'} 戰報展示。</div>`;
+        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">目前尚無 ${currentReportCat === 'all' ? '' : (currentReportCat === 'wipe' ? '翻車' : currentReportCat + ' 級地')} 戰報展示。</div>`;
         return;
       }
 
@@ -475,7 +479,7 @@
           <div class="relative h-48 bg-black/5 overflow-hidden">
             <img src="${r.imgData}" alt="戰報截圖" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition duration-300" onclick="openLightbox('${r.imgData}')">
             <span class="absolute top-2 left-2 px-2 py-0.5 bg-red-900 text-white text-xs font-bold rounded shadow">
-              ${r.level} 級地
+              ${r.level === 'wipe' ? '翻車戰報' : r.level + ' 級地'}
             </span>
           </div>
           <div class="p-3 space-y-1">
