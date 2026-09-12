@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《信長之野望：真戰》PK1/PK2 賽季實戰開荒筆記</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sengoku: {
+              gold: '#B8860B',
+              red: '#991B1B',
+              bg: '#F9F8F3',
+              card: '#FFFFFF',
+              border: '#E8E3D9',
+              text: '#2C2C2A',
+              subtext: '#5A5A56'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-sengoku-bg text-sengoku-text font-sans min-h-screen">
+  <!-- Header / Banner -->
+  <header class="border-b border-sengoku-border bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-700 to-amber-600 flex items-center justify-center font-bold text-white text-xl shadow border border-amber-300">
+          信
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-red-900 tracking-wide">《信長之野望：真戰》PK 賽季實戰開荒攻略</h1>
+          <p class="text-sm text-sengoku-subtext">2026年8月24日 PK1 尾聲實戰記憶整理版</p>
+        </div>
+      </div>
+      <nav class="flex flex-wrap gap-2 text-base font-medium">
+        <a href="#section-notes" class="px-3.5 py-1.5 rounded-lg transition bg-amber-100 text-amber-900 border border-amber-300 font-semibold shadow-sm hover:bg-amber-200">
+          <i class="fa-solid fa-book-bookmark mr-1"></i> 開荒前準備
+        </a>
+        <a href="#section-day1" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-sun mr-1"></i> 第一天
+        </a>
+        <a href="#section-day2" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-moon mr-1"></i> 第二天
+        </a>
+        <a href="#section-calc" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-calculator mr-1"></i> 爆倉試算器
+        </a>
+        <a href="#section-reports" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-camera mr-1"></i> 戰報貼圖
+        </a>
+        <a href="pk1-teams.html" class="px-3.5 py-1.5 rounded-lg transition bg-red-900 text-white font-semibold shadow-sm hover:bg-red-800">
+          <i class="fa-solid fa-shield-halved mr-1"></i> PK1 最終組隊 (5隊)
+        </a>
+        <a href="#section-comments" class="px-3.5 py-1.5 rounded-lg transition text-sengoku-subtext hover:text-red-900 hover:bg-white">
+          <i class="fa-solid fa-comments mr-1"></i> 留言指正
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="max-w-6xl mx-auto px-4 py-8 space-y-10">
+
+    <!-- Section 1: Player Notes (Original Draft) -->
+    <section id="section-notes" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-sm font-mono px-3 py-1 bg-amber-100 text-amber-900 rounded font-semibold border border-amber-300">
+            <i class="fa-regular fa-calendar-check mr-1"></i> 2026年8月24日 筆記記錄
+          </span>
+          <span class="text-sm text-sengoku-subtext">PK1 賽季尾聲實戰經驗</span>
+        </div>
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2">開荒前準備，與觀念：</h2>
+        <ol class="list-decimal list-inside space-y-3 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>準備低損第一隊組合。我是用加藤嘉明(全統大將，一直換兵種+氣炎/智者/每場換)+成田(威風+趁勝)福島(一力+縱橫)。盡量配合自己前期要出的打架隊伍，同家門或同兵種。準備打雜用低損第二隊組合，我是長宗+里見+浦上宗景。(註：因為威風凜凜非常強勢，所以開荒鎖定成田，福島的亂舞體系也很好，開荒優勢，只是轉型要吃三張)</li>
+          <li>建築嚴格只點任務要的。</li>
+          <li>注意進程(天下布武)，有獎勵上升的進程，上納就要等一等再解。</li>
+          <li>前2~3天勞力盡量買滿。</li>
+          <li>每次勞力滿之前，都剛好首佔高一等級的石頭，可以屯田</li>
+          <li>碰瓷隊我沒有成功過，因為速度要比守軍快，估計要滿紅點速度才能達到，我放棄了QQ</li>
+          <li>前期翻車不要緊張，前面就算大翻，死兵也沒有太多，還會返還。經驗值有賺到就好。(例如打四地一場死300兵，打五地翻車了死1500兵，但其實你翻車這場經驗值=打四地4場，沒那麼虧。)</li>
+          <li>超級勤勞的，可以每一場換技能的，守軍連擊隊就換氣炎萬丈，主動隊就換減傷/補血/一觸即發。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 2: Day 1 (Exact User Text) -->
+    <section id="section-day1" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-sun text-amber-600"></i> 第一天：
+        </h2>
+        <ol class="list-decimal list-inside space-y-4 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>落地小判轉換紫將心得。賽季商店該買的買一買。隨便抽幾張卡，不要花太多時間。</li>
+          <li>開局先看環境，腹地大不大，有沒有河流/山脈/盟友，卡住的某一方向的腹地。如果位置真的很糟糕，請果斷東山再起。</li>
+          <li>
+            開局上第二隊，打個3地。##"全下，上第一隊，評估能不能打得過4(一般是不行啦)，不能就打一場3，全下"##。再換回第二隊。 (說明：單純讓第一隊開始回體力)。四級地經驗值是三級地的4~5倍的樣子，盡可能不碰3。<br>
+            <span class="text-sm text-sengoku-subtext pl-6 block mt-1">##可選。原則上是7~8等開4，也可以等2隊解主線任務，拿到經驗值，等第一隊等級高了再開上來。</span>
+          </li>
+          <li>抽卡抽一抽，不要花太多時間。</li>
+          <li>第二隊跟著任務走，一定要一直偵查，有風險就不碰 (混亂，或先遣服傳回的地雷)，民夫開始發力，主城附近開拓只要3體，用光10拓道之後的開拓，就算領地。所以上線就是開拓10塊0級或1級地。然後先用民夫把能佔的土地資源都佔起來(石頭優先)。資源比例攻略說是2:1:1:0.5，但我石頭會多一些，糧食幾乎不打。(但要場場低損，打一些也無妨)</li>
+          <li>看主線任務進度，會送隊伍經驗值，在第一隊體力回滿之前，要上來打一塊能打的最高等級的地。</li>
+          <li>下午14:00之前，盡量拚組頭4 (天守6級+威信1200)，這很極限，沒有沒關係。勢力親善開啟，「徵發促成策」、「物資調達之證」先拿到，其他都送到+資源就好，不用送到滿。</li>
+          <li>17~19開5地(看盟友的戰報評估自己行不行) ，五級地經驗值是四級地的3倍的樣子，盡可能在勞力上限之前開5石來屯一次。開5用的是第一隊，開5之後，第二隊可以休息了，用滿體的第一隊，從五地開始打上去。</li>
+          <li>漫長的全篇都換5地。不要想著同時練第二隊，我傾向全部兵力集中練第一隊。不要覺得自己兵力還蠻多的就浪費，這邊省下來是給明天開6的。</li>
+          <li>職能技能弄一弄，先辯才2(雙倍國眾上納)，再算數3(打折)，再建築3(普請雇用，都秒金的不用這個)</li>
+          <li>第九章任務先不要領取石材、包括評定、晚上8點國眾上納，都先不要領。用倉庫7爆倉天守7 (忘了，待確認)</li>
+          <li>開荒沒有夜戰，用肝把沒有混亂的5地的佔一佔。</li>
+          <li>24:00換日前記得買勞力，我常常第一天忘記。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 3: Day 2 (Exact User Text) -->
+    <section id="section-day2" class="space-y-4 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <h2 class="text-2xl font-bold text-red-900 border-b border-sengoku-border pb-2 flex items-center gap-2">
+          <i class="fa-solid fa-moon text-amber-700"></i> 第二天：
+        </h2>
+        <ol class="list-decimal list-inside space-y-4 text-base md:text-lg text-sengoku-text leading-relaxed">
+          <li>"忘了幾級"開6地(看盟友的戰報評估自己行不行)</li>
+          <li>24:00之前，能的話拚天守8，今天可以多一個評定?不太確定，以後修正。</li>
+          <li>第十章任務後先不要領取石材、包括評定、國眾上納先不要領。用倉庫9爆倉天守8 (忘了，待確認)</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Section 4: Calculator -->
+    <section id="section-calc" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm">
+        <h2 class="text-2xl font-bold text-red-900 mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-boxes-stacked text-amber-700"></i> 7/8 級天守爆倉與屯田計算器
+        </h2>
+        <p class="text-sengoku-subtext text-base">
+          選擇當前倉庫等級與輸入細項預留任務資源，系統將即時自動計算總合是否足以突破天守升級限制。<br>
+          原則上是第九章任務石頭不領爆7天守，第十章任務不領爆8天守。但可依照運氣(評定石頭多不多)調整。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl space-y-4 shadow-sm">
+          <h3 class="text-xl font-bold text-sengoku-text border-b border-sengoku-border pb-2">參數設定</h3>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">目標天守等級</label>
+            <select id="calc-target" onchange="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-3 text-base focus:border-amber-600 outline-none">
+              <option value="296000">天守 7 級 (倉庫 7 級爆倉，需約 296,000 石材)</option>
+              <option value="584000">天守 8 級 (倉庫 9 級爆倉，需約 584,000 石材)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">當前倉庫等級 (倉庫石材上限)</label>
+            <select id="calc-warehouse-level" onchange="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-3 text-base focus:border-amber-600 outline-none">
+              <option value="110000">倉庫 Lv 5 (石材上限 110,000)</option>
+              <option value="160000">倉庫 Lv 6 (石材上限 160,000)</option>
+              <option value="210000" selected>倉庫 Lv 7 (石材上限 210,000)</option>
+              <option value="260000">倉庫 Lv 8 (石材上限 260,000)</option>
+              <option value="310000">倉庫 Lv 9 (石材上限 310,000)</option>
+              <option value="360000">倉庫 Lv 10 (石材上限 360,000)</option>
+            </select>
+          </div>
+
+          <div class="border-t border-sengoku-border pt-3 space-y-3">
+            <label class="block text-sm font-bold text-sengoku-text mb-1">預留未領取石材細項 (即時加總)</label>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs text-sengoku-subtext mb-1">1. 主線任務石材</label>
+                <input type="number" id="calc-task-main" value="30000" oninput="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs text-sengoku-subtext mb-1">2. 信箱獎勵石材</label>
+                <input type="number" id="calc-task-mail" value="10000" oninput="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs text-sengoku-subtext mb-1">3. 國眾上納石材</label>
+                <input type="number" id="calc-task-kunishushu" value="20000" oninput="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs text-sengoku-subtext mb-1">4. 評定任務石材</label>
+                <input type="number" id="calc-task-assessment" value="20000" oninput="calculateBurst()" class="w-full bg-sengoku-bg border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl flex flex-col justify-between shadow-sm">
+          <div>
+            <h3 class="text-xl font-bold text-sengoku-text border-b border-sengoku-border pb-2 mb-4">即時試算結果</h3>
+            <div id="calc-result" class="space-y-4">
+              <div class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border">
+                <div class="text-sm text-sengoku-subtext">總可拉升石材 (倉庫滿額 + 四項預留石材總和)</div>
+                <div id="calc-total" class="text-4xl font-mono font-bold text-amber-800 mt-1">290,000</div>
+              </div>
+              <div id="calc-status" class="p-4 rounded-lg text-base font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800">
+                <i class="fa-solid fa-circle-check mr-2"></i> 可成功爆倉升級！無需再升級高階倉庫。
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Screenshot Sharing / Report Area -->
+    <section id="section-reports" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <div class="flex justify-between items-center border-b border-sengoku-border pb-2">
+          <h2 class="text-2xl font-bold text-red-900 flex items-center gap-2">
+            <i class="fa-solid fa-camera text-amber-700"></i> 首佔戰報展示區 (6 ~ 9級地)
+          </h2>
+          <button type="button" onclick="toggleReportUploadForm()" class="text-sm text-amber-900 hover:text-red-900 border border-amber-300 rounded px-3 py-1.5 bg-amber-100 font-bold shadow-sm cursor-pointer">
+            <i class="fa-solid fa-lock mr-1"></i> 站長發布入口
+          </button>
+        </div>
+        <p class="text-sengoku-subtext text-base">此區展示作者親自驗證的首佔 6級地、7級地、8級地、9級地 戰報與低損陣容。</p>
+
+        <!-- Category Tabs -->
+        <div class="flex gap-2 border-b border-sengoku-border pb-2 overflow-x-auto">
+          <button type="button" onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm shrink-0">全部戰報</button>
+          <button type="button" onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">6 級地</button>
+          <button type="button" onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">7 級地</button>
+          <button type="button" onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">8 級地</button>
+          <button type="button" onclick="switchReportCategory('9')" id="rep-cat-9" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">9 級地</button>
+          <button type="button" onclick="switchReportCategory('wipe')" id="rep-cat-wipe" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">翻車戰報</button>
+        </div>
+
+        <!-- Author Submission Box -->
+        <div id="author-upload-form" class="hidden space-y-4 bg-amber-50/80 p-5 rounded-lg border border-amber-300">
+          <div class="text-sm font-bold text-amber-900 flex items-center gap-1 border-b border-amber-200 pb-2">
+            <i class="fa-solid fa-key text-amber-700"></i> 站長專用戰報上壇通道
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">管理員密碼</label>
+              <input type="password" id="report-admin-pass" placeholder="請輸入站長密碼" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            </div>
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">土地等級 / 類別</label>
+              <select id="report-level" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+                <option value="6">6 級地</option>
+                <option value="7">7 級地</option>
+                <option value="8">8 級地</option>
+                <option value="9">9 級地</option>
+                <option value="wipe">翻車戰報</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">戰報截圖檔案</label>
+              <input type="file" id="report-image-file" accept="image/*" class="w-full bg-white border border-sengoku-border rounded p-1.5 text-sm focus:border-amber-600 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">戰報備註說明 (隊伍、等級與戰損)</label>
+            <input type="text" id="report-desc" placeholder="例如：加藤嘉明+成田+福島 21級首佔6石，戰損 1,100" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+          </div>
+          <button type="button" onclick="submitAuthorReport()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer">
+            <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 發布站長戰報
+          </button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div id="report-gallery" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: User Comments & Feedback (SHA-256 Hashed Admin Security) -->
+    <section id="section-comments" class="space-y-6 scroll-mt-24">
+      <div class="bg-sengoku-card border border-sengoku-border p-6 rounded-xl shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-sengoku-border pb-3">
+          <h2 class="text-2xl font-bold text-red-900 flex items-center gap-2">
+            <i class="fa-solid fa-comments text-amber-700"></i> 網友留言指正與補充
+          </h2>
+          <!-- Jump to Floor Control -->
+          <div class="flex items-center gap-2 bg-sengoku-bg border border-sengoku-border px-3 py-1.5 rounded-lg">
+            <span class="text-xs text-sengoku-subtext font-semibold">跳轉樓層：</span>
+            <input type="number" id="jump-floor-input" min="1" placeholder="樓層 #" class="w-20 bg-white border border-sengoku-border rounded px-2 py-1 text-xs text-center outline-none">
+            <button type="button" onclick="jumpToFloor()" class="px-2.5 py-1 bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 rounded text-xs font-bold transition">
+              直達
+            </button>
+          </div>
+        </div>
+
+        <p class="text-sengoku-subtext text-base">有發現攻略錯誤、補充心得或戰報討論，歡迎在下方文字留言交流！<span class="text-xs text-red-800 font-semibold pl-1">（設有 60 秒發文冷卻）</span></p>
+
+        <!-- Comment Box -->
+        <div class="space-y-4 bg-sengoku-bg p-5 rounded-lg border border-sengoku-border">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-sengoku-subtext mb-1">暱稱 / 稱呼</label>
+              <input type="text" id="comment-author" placeholder="例如：開荒武將" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-sengoku-subtext mb-1">留言指正 / 心得補充</label>
+            <textarea id="comment-text" rows="3" placeholder="歡迎留下您的建議或指正補充..." class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none"></textarea>
+          </div>
+          <button type="button" id="btn-submit-comment" onclick="submitComment()" class="px-6 py-2.5 bg-gradient-to-r from-red-800 to-amber-700 hover:from-red-900 hover:to-amber-800 text-white font-bold rounded-lg transition shadow cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+            <i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言
+          </button>
+        </div>
+
+        <!-- Status Message Banner -->
+        <div id="comment-status-msg" class="hidden p-3 rounded text-sm font-semibold"></div>
+
+        <!-- Comment List -->
+        <div id="comment-list" class="space-y-3 pt-2">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="comment-pagination" class="flex flex-col sm:flex-row justify-between items-center gap-3 pt-4 border-t border-sengoku-border text-sm">
+          <div id="page-info" class="text-sengoku-subtext font-medium"></div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-prev-page" onclick="changePage(-1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              <i class="fa-solid fa-chevron-left mr-1"></i> 上一頁
+            </button>
+            <button type="button" id="btn-next-page" onclick="changePage(1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              下一頁 <i class="fa-solid fa-chevron-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-sengoku-border py-6 text-center text-sm text-sengoku-subtext mt-12 bg-white">
+    《信長之野望：真戰》PK1/PK2 玩家實戰經驗庫 &bull; 2026.08.24 記憶整理版
+  </footer>
+
+  <script>
+    // ==========================================
+    // 1. SUPABASE REST API 設定區
+    // ==========================================
+    const SUPABASE_URL = "https://wtqxsdindrnccxusgcah.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_TKO6mW11aVFIQ_Z70msXyg_mijGDsDi";
+    const DISPLAY_DELETED_TEXT = "該文章已被站長刪除";
+    const DELETE_PREFIX = "[DELETED_BY_ADMIN]";
+
+    // SHA-256 Hash of admin password (856595)
+    const ADMIN_PASS_HASH = "757fb59e06bccb7c5ea140760a2dd03211a2a17e6f7d684d86b42cd5876ff318";
+
+    async function verifyAdminPassword(inputPass) {
+      if (!inputPass) return false;
+      const msgUint8 = new TextEncoder().encode(inputPass);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex === ADMIN_PASS_HASH;
+    }
+
+    async function apiFetchComments() {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments?select=*&order=id.asc`;
+      const res = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
+      }
+      return await res.json();
+    }
+
+    async function apiInsertComment(author, text) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments`;
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({ author, text })
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
+      }
+      return await res.json();
+    }
+
+    async function apiUpdateCommentText(id, newText) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/comments?id=eq.${id}`;
+      const res = await fetch(endpoint, {
+        method: "PATCH",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({ text: newText })
+      });
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(`[HTTP ${res.status}] ${errText}`);
+      }
+      return true;
+    }
+
+    // ==========================================
+    // Reports Supabase REST API helpers
+    // ==========================================
+    async function apiFetchReports() {
+      const endpoint = `${SUPABASE_URL}/rest/v1/reports?select=*&order=id.desc`;
+      const res = await fetch(endpoint, {
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!res.ok) throw new Error(`[HTTP ${res.status}] ${await res.text()}`);
+      return await res.json();
+    }
+
+    async function apiInsertReport(level, description, image_data) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/reports`;
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=representation"
+        },
+        body: JSON.stringify({ level, description, image_data })
+      });
+      if (!res.ok) throw new Error(`[HTTP ${res.status}] ${await res.text()}`);
+      return await res.json();
+    }
+
+    async function apiDeleteReport(id) {
+      const endpoint = `${SUPABASE_URL}/rest/v1/reports?id=eq.${id}`;
+      const res = await fetch(endpoint, {
+        method: "DELETE",
+        headers: {
+          "apikey": SUPABASE_ANON_KEY,
+          "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      });
+      if (!res.ok) throw new Error(`[HTTP ${res.status}] ${await res.text()}`);
+      return true;
+    }
+
+    // ==========================================
+    // 2. 7/8級天守爆倉與四項預留試算器
+    // ==========================================
+    function calculateBurst() {
+      const target = parseInt(document.getElementById('calc-target').value);
+      const cap = parseInt(document.getElementById('calc-warehouse-level').value) || 0;
+
+      const main = parseInt(document.getElementById('calc-task-main').value) || 0;
+      const mail = parseInt(document.getElementById('calc-task-mail').value) || 0;
+      const kunishushu = parseInt(document.getElementById('calc-task-kunishushu').value) || 0;
+      const assessment = parseInt(document.getElementById('calc-task-assessment').value) || 0;
+
+      const tasksTotal = main + mail + kunishushu + assessment;
+      const total = cap + tasksTotal;
+
+      document.getElementById('calc-total').innerText = total.toLocaleString();
+
+      const statusEl = document.getElementById('calc-status');
+      if (total >= target) {
+        statusEl.className = "p-4 rounded-lg text-base font-semibold bg-emerald-50 border border-emerald-300 text-emerald-800";
+        statusEl.innerHTML = '<i class="fa-solid fa-circle-check mr-2"></i> 可成功爆倉升級！無需再升級高階倉庫。';
+      } else {
+        const diff = target - total;
+        statusEl.className = "p-4 rounded-lg text-base font-semibold bg-red-50 border border-red-300 text-red-800";
+        statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation mr-2"></i> 資源不足！仍缺 ' + diff.toLocaleString() + ' 石材。';
+      }
+    }
+
+    // ==========================================
+    // 3. 戰報貼圖區
+    // ==========================================
+    let currentReportCat = 'all';
+
+    function toggleReportUploadForm() {
+      const form = document.getElementById("author-upload-form");
+      if (!form) return;
+      if (form.classList.contains("hidden")) {
+        form.classList.remove("hidden");
+        form.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        form.classList.add("hidden");
+      }
+    }
+
+    function switchReportCategory(cat) {
+      currentReportCat = cat;
+      document.querySelectorAll('.rep-cat-btn').forEach(btn => {
+        btn.classList.remove('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+        btn.classList.add('text-sengoku-subtext', 'font-semibold');
+      });
+      const activeBtn = document.getElementById('rep-cat-' + cat);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-sengoku-subtext', 'font-semibold');
+        activeBtn.classList.add('bg-amber-100', 'text-amber-900', 'border', 'border-amber-300', 'shadow-sm', 'font-bold');
+      }
+
+      renderReports();
+    }
+
+    function compressImage(file, maxWidth = 1000, quality = 0.75) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    let allReportsList = [];
+
+    async function loadReports() {
+      const gallery = document.getElementById("report-gallery");
+      gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center"><i class="fa-solid fa-spinner fa-spin mr-2"></i>載入戰報中...</div>`;
+
+      try {
+        allReportsList = await apiFetchReports();
+      } catch(err) {
+        console.warn("Supabase reports 讀取失敗:", err);
+        allReportsList = [];
+      }
+
+      renderReports();
+    }
+
+    function renderReports() {
+      const gallery = document.getElementById("report-gallery");
+      const filtered = currentReportCat === 'all'
+        ? allReportsList
+        : allReportsList.filter(r => r.level === currentReportCat);
+
+      if (filtered.length === 0) {
+        gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">目前尚無 ${currentReportCat === 'all' ? '' : (currentReportCat === 'wipe' ? '翻車' : currentReportCat + ' 級地')} 戰報展示。</div>`;
+        return;
+      }
+
+      gallery.innerHTML = filtered.map(r => {
+        const timeStr = r.created_at ? r.created_at.substring(0, 16).replace('T', ' ') : '';
+        // escape image_data safely for onclick attr — store id instead
+        return `
+          <div class="bg-sengoku-bg border border-sengoku-border rounded-lg overflow-hidden shadow-sm hover:shadow transition">
+            <div class="relative h-48 bg-black/5 overflow-hidden">
+              <img src="${r.image_data}" alt="戰報截圖" class="w-full h-full object-cover cursor-pointer hover:scale-105 transition duration-300"
+                onclick="openLightboxById(${r.id})">
+              <span class="absolute top-2 left-2 px-2 py-0.5 bg-red-900 text-white text-xs font-bold rounded shadow">
+                ${r.level === 'wipe' ? '翻車戰報' : r.level + ' 級地'}
+              </span>
+              <button type="button" onclick="deleteAuthorReport(${r.id})" class="absolute top-2 right-2 px-2 py-0.5 bg-red-800/80 hover:bg-red-900 text-white text-xs font-bold rounded shadow transition cursor-pointer">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+            <div class="p-3 space-y-1">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-red-900"><i class="fa-solid fa-user-shield mr-1"></i> 站長專屬戰報</span>
+                <span class="text-sengoku-subtext">${timeStr}</span>
+              </div>
+              <p class="text-sm font-medium text-sengoku-text line-clamp-2">${escapeHtml(r.description)}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function deleteAuthorReport(reportId) {
+      const pass = prompt("【站長刪除戰報】請輸入管理員密碼：");
+      if (pass === null) return;
+      const isValid = await verifyAdminPassword(pass);
+      if (!isValid) {
+        alert("管理員密碼錯誤！");
+        return;
+      }
+      try {
+        await apiDeleteReport(reportId);
+        alert("戰報已成功從雲端刪除！");
+        await loadReports();
+      } catch(e) {
+        alert("刪除失敗：" + e.message);
+      }
+    }
+
+    async function submitAuthorReport() {
+      const pass = document.getElementById("report-admin-pass").value;
+      const isValid = await verifyAdminPassword(pass);
+
+      if (!isValid) {
+        alert("管理員密碼錯誤！只有站長可以發布戰報貼圖。");
+        return;
+      }
+
+      const level = document.getElementById("report-level").value;
+      const desc = document.getElementById("report-desc").value.trim();
+      const fileInput = document.getElementById("report-image-file");
+
+      if (!desc || fileInput.files.length === 0) {
+        alert("請完整填寫戰報說明與選擇圖片！");
+        return;
+      }
+
+      const btn = document.querySelector("button[onclick='submitAuthorReport()']");
+      if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> 上傳中...'; }
+
+      try {
+        const imgData = await compressImage(fileInput.files[0], 1000, 0.75);
+        await apiInsertReport(level, desc, imgData);
+
+        document.getElementById("report-desc").value = "";
+        fileInput.value = "";
+        document.getElementById("author-upload-form").classList.add("hidden");
+
+        alert("站長戰報已同步上傳至 Supabase 雲端！所有人立即可見。");
+        await loadReports();
+      } catch(e) {
+        alert("上傳失敗：" + e.message);
+      } finally {
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> 發布站長戰報'; }
+      }
+    }
+
+    function openLightboxById(reportId) {
+      const report = allReportsList.find(r => r.id === reportId);
+      if (!report) return;
+      const w = window.open("");
+      w.document.write(`<body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${report.image_data}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body>`);
+    }
+
+    function openLightbox(src) {
+      const w = window.open("");
+      w.document.write(`<body style="margin:0;background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;"><img src="${src}" style="max-width:100%;max-height:100vh;object-fit:contain;"></body>`);
+    }
+
+    // ==========================================
+    // 4. 留言區分頁、樓層跳轉、60秒冷卻與 SHA-256 站長管理
+    // ==========================================
+    const PAGE_SIZE = 30;
+    const COOLDOWN_SECONDS = 60;
+    let currentPage = 1;
+    let allCommentsList = [];
+    let cooldownTimer = null;
+
+    async function loadComments() {
+      let rawData = null;
+
+      try {
+        const remoteData = await apiFetchComments();
+        if (Array.isArray(remoteData)) {
+          rawData = remoteData;
+        }
+      } catch(err) {
+        console.warn("Supabase REST 讀取警報 (降級為本地):", err);
+      }
+
+      if (!rawData || rawData.length === 0) {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        rawData = stored ? JSON.parse(stored) : [];
+        rawData.reverse();
+      }
+
+      allCommentsList = rawData.map((item, idx) => {
+        const rawText = item.text || '';
+        const isDeleted = rawText.startsWith(DELETE_PREFIX) || rawText === DISPLAY_DELETED_TEXT;
+        const originalText = isDeleted ? rawText.replace(DELETE_PREFIX, '') : rawText;
+
+        return {
+          id: item.id || null,
+          floor: idx + 1,
+          author: item.author,
+          rawText: rawText,
+          originalText: originalText === DISPLAY_DELETED_TEXT ? '' : originalText,
+          isDeleted: isDeleted,
+          time: item.created_at ? item.created_at.substring(0, 16).replace('T', ' ') : (item.time || '')
+        };
+      });
+
+      renderCurrentPageComments();
+      checkExistingCooldown();
+    }
+
+    function checkExistingCooldown() {
+      const lastCommentTime = localStorage.getItem("last_comment_time");
+      if (lastCommentTime) {
+        const elapsed = Math.floor((Date.now() - parseInt(lastCommentTime)) / 1000);
+        if (elapsed < COOLDOWN_SECONDS) {
+          startCooldown(COOLDOWN_SECONDS - elapsed);
+        }
+      }
+    }
+
+    function startCooldown(secondsLeft) {
+      const btn = document.getElementById("btn-submit-comment");
+      btn.disabled = true;
+      let left = secondsLeft;
+
+      if (cooldownTimer) clearInterval(cooldownTimer);
+
+      btn.innerHTML = `<i class="fa-solid fa-hourglass-half mr-1.5"></i> 請等待 ${left}s`;
+
+      cooldownTimer = setInterval(() => {
+        left--;
+        if (left <= 0) {
+          clearInterval(cooldownTimer);
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-paper-plane mr-1.5"></i> 送出留言`;
+        } else {
+          btn.innerHTML = `<i class="fa-solid fa-hourglass-half mr-1.5"></i> 請等待 ${left}s`;
+        }
+      }, 1000);
+    }
+
+    function renderCurrentPageComments() {
+      const container = document.getElementById("comment-list");
+      const pageInfo = document.getElementById("page-info");
+      const btnPrev = document.getElementById("btn-prev-page");
+      const btnNext = document.getElementById("btn-next-page");
+
+      const totalCount = allCommentsList.length;
+
+      if (totalCount === 0) {
+        container.innerHTML = `<div class="text-sm text-sengoku-subtext py-4 text-center border border-dashed border-sengoku-border rounded-lg">尚無留言，歡迎成為第一個留言指正的玩家！</div>`;
+        pageInfo.innerText = "共 0 筆留言";
+        btnPrev.disabled = true;
+        btnNext.disabled = true;
+        return;
+      }
+
+      const reversedComments = [...allCommentsList].reverse();
+      const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+      if (currentPage < 1) currentPage = 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const pageData = reversedComments.slice(startIndex, startIndex + PAGE_SIZE);
+
+      container.innerHTML = pageData.map(c => {
+        if (c.isDeleted) {
+          return `
+            <div id="comment-floor-${c.floor}" class="p-4 bg-gray-100/90 rounded-lg border border-gray-300 space-y-1 transition duration-500">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 bg-gray-200 text-gray-700 font-mono font-bold text-xs rounded">
+                    #${c.floor} 樓
+                  </span>
+                  <span class="font-bold text-gray-500 text-sm"><i class="fa-solid fa-user-slash mr-1"></i> ${escapeHtml(c.author)}</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="text-xs text-gray-400">${c.time}</span>
+                  <button type="button" onclick="restoreCommentByAdmin(${c.id}, ${c.floor})" class="text-xs text-emerald-700 hover:text-emerald-900 font-semibold border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded transition cursor-pointer">
+                    <i class="fa-solid fa-rotate-left mr-1"></i> 恢復
+                  </button>
+                </div>
+              </div>
+              <p class="text-sm text-gray-500 italic pt-1 flex items-center gap-1.5 font-medium">
+                <i class="fa-solid fa-ban text-red-700"></i> ${DISPLAY_DELETED_TEXT}
+              </p>
+            </div>
+          `;
+        }
+
+        return `
+          <div id="comment-floor-${c.floor}" class="p-4 bg-sengoku-bg rounded-lg border border-sengoku-border space-y-1 transition duration-500">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 font-mono font-bold text-xs rounded">
+                  #${c.floor} 樓
+                </span>
+                <span class="font-bold text-red-900 text-base"><i class="fa-solid fa-user-ninja mr-1 text-amber-700"></i> ${escapeHtml(c.author)}</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-xs text-sengoku-subtext">${c.time}</span>
+                <button type="button" onclick="deleteCommentByAdmin(${c.id}, ${c.floor})" class="text-xs text-red-700 hover:text-red-900 font-semibold border border-red-200 bg-red-50 hover:bg-red-100 px-2 py-0.5 rounded transition cursor-pointer">
+                  <i class="fa-solid fa-trash-can mr-1"></i> 刪除
+                </button>
+              </div>
+            </div>
+            <p class="text-base text-sengoku-text leading-relaxed pt-1">${escapeHtml(c.originalText)}</p>
+          </div>
+        `;
+      }).join('');
+
+      pageInfo.innerText = `第 ${currentPage} / ${totalPages} 頁 (共 ${totalCount} 筆留言，每頁 ${PAGE_SIZE} 筆)`;
+      btnPrev.disabled = (currentPage === 1);
+      btnNext.disabled = (currentPage === totalPages);
+    }
+
+    async function deleteCommentByAdmin(id, floor) {
+      const pass = prompt(`【站長註記刪除】請輸入管理員密碼，將 #${floor} 樓標記為已刪除：`);
+      if (pass === null) return;
+
+      const isValid = await verifyAdminPassword(pass);
+      if (!isValid) {
+        alert("管理員密碼錯誤，無法進行操作！");
+        return;
+      }
+
+      const target = allCommentsList.find(c => c.floor === floor);
+      if (!target) return;
+
+      const newText = DELETE_PREFIX + target.originalText;
+
+      if (id) {
+        try {
+          await apiUpdateCommentText(id, newText);
+        } catch(err) {
+          console.warn("Supabase 雲端 PATCH 標記失敗:", err);
+        }
+      }
+
+      try {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        if (stored) {
+          let comments = JSON.parse(stored);
+          const idx = floor - 1;
+          if (comments[idx]) {
+            comments[idx].text = newText;
+            localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+          }
+        }
+      } catch(e) {
+        console.error("LocalStorage 寫入失敗:", e);
+      }
+
+      alert(`已成功將 #${floor} 樓留言標記為已被站長刪除！`);
+      await loadComments();
+    }
+
+    async function restoreCommentByAdmin(id, floor) {
+      const pass = prompt(`【站長留言恢復】請輸入管理員密碼，恢復 #${floor} 樓原留言內容：`);
+      if (pass === null) return;
+
+      const isValid = await verifyAdminPassword(pass);
+      if (!isValid) {
+        alert("管理員密碼錯誤，無法進行操作！");
+        return;
+      }
+
+      const target = allCommentsList.find(c => c.floor === floor);
+      if (!target) return;
+
+      const restoredText = target.originalText || "（原留言內容已恢復）";
+
+      if (id) {
+        try {
+          await apiUpdateCommentText(id, restoredText);
+        } catch(err) {
+          console.warn("Supabase 雲端 PATCH 恢復失敗:", err);
+        }
+      }
+
+      try {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        if (stored) {
+          let comments = JSON.parse(stored);
+          const idx = floor - 1;
+          if (comments[idx]) {
+            comments[idx].text = restoredText;
+            localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+          }
+        }
+      } catch(e) {
+        console.error("LocalStorage 寫入失敗:", e);
+      }
+
+      alert(`已成功將 #${floor} 樓留言恢復原貌！`);
+      await loadComments();
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      renderCurrentPageComments();
+    }
+
+    function jumpToFloor() {
+      const input = document.getElementById("jump-floor-input");
+      const targetFloor = parseInt(input.value);
+
+      if (!targetFloor || targetFloor < 1 || targetFloor > allCommentsList.length) {
+        alert(`請輸入有效的樓層編號 (1 ~ ${allCommentsList.length})！`);
+        return;
+      }
+
+      const totalCount = allCommentsList.length;
+      const reversedIndex = totalCount - targetFloor;
+      const targetPage = Math.floor(reversedIndex / PAGE_SIZE) + 1;
+
+      currentPage = targetPage;
+      renderCurrentPageComments();
+
+      setTimeout(() => {
+        const el = document.getElementById(`comment-floor-${targetFloor}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+          el.classList.add('ring-2', 'ring-red-600', 'bg-amber-50');
+          setTimeout(() => {
+            el.classList.remove('ring-2', 'ring-red-600', 'bg-amber-50');
+          }, 2500);
+        }
+      }, 150);
+    }
+
+    async function submitComment() {
+      const lastCommentTime = localStorage.getItem("last_comment_time");
+      if (lastCommentTime) {
+        const elapsed = Math.floor((Date.now() - parseInt(lastCommentTime)) / 1000);
+        if (elapsed < COOLDOWN_SECONDS) {
+          const remaining = COOLDOWN_SECONDS - elapsed;
+          alert(`發文冷卻中！請等待 ${remaining} 秒後再試。`);
+          return;
+        }
+      }
+
+      const authorInput = document.getElementById("comment-author");
+      const textInput = document.getElementById("comment-text");
+      const statusMsg = document.getElementById("comment-status-msg");
+      
+      const author = authorInput.value.trim();
+      const text = textInput.value.trim();
+
+      if (!author || !text) {
+        alert("請填寫暱稱與留言內容！");
+        return;
+      }
+
+      let apiSuccess = false;
+      let apiErrorMsg = null;
+
+      try {
+        await apiInsertComment(author, text);
+        apiSuccess = true;
+      } catch(err) {
+        apiErrorMsg = err.message;
+        console.error("Supabase REST 寫入失敗:", err);
+      }
+
+      try {
+        const stored = localStorage.getItem("nobunaga_shinsen_comments");
+        const comments = stored ? JSON.parse(stored) : [];
+        const now = new Date();
+        const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+        comments.push({ author, text, time: timeStr });
+        localStorage.setItem("nobunaga_shinsen_comments", JSON.stringify(comments));
+      } catch(e) {
+        console.error("LocalStorage 寫入失敗:", e);
+      }
+
+      localStorage.setItem("last_comment_time", Date.now().toString());
+
+      authorInput.value = "";
+      textInput.value = "";
+
+      if (apiSuccess) {
+        statusMsg.className = "p-3 rounded text-sm bg-emerald-100 border border-emerald-300 text-emerald-900 block";
+        statusMsg.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> 留言成功！已同步寫入 Supabase 雲端與全網。`;
+      } else {
+        statusMsg.className = "p-3 rounded text-sm bg-amber-100 border border-amber-300 text-amber-900 block";
+        statusMsg.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> 留言已發布至本機（雲端提示：${escapeHtml(apiErrorMsg)}）`;
+      }
+
+      currentPage = 1;
+      await loadComments();
+      startCooldown(COOLDOWN_SECONDS);
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    // 初始化數據載入
+    document.addEventListener("DOMContentLoaded", () => {
+      calculateBurst();
+      loadReports();
+      loadComments();
+    });
+  </script>
+</body>
+</html>
