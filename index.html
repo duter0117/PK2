@@ -223,6 +223,8 @@
         <!-- Category Tabs -->
         <div class="flex gap-2 border-b border-sengoku-border pb-2 overflow-x-auto">
           <button type="button" onclick="switchReportCategory('all')" id="rep-cat-all" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-bold bg-amber-100 text-amber-900 border border-amber-300 shadow-sm shrink-0">全部戰報</button>
+          <button type="button" onclick="switchReportCategory('4')" id="rep-cat-4" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">4 級地</button>
+          <button type="button" onclick="switchReportCategory('5')" id="rep-cat-5" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">5 級地</button>
           <button type="button" onclick="switchReportCategory('6')" id="rep-cat-6" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">6 級地</button>
           <button type="button" onclick="switchReportCategory('7')" id="rep-cat-7" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">7 級地</button>
           <button type="button" onclick="switchReportCategory('8')" id="rep-cat-8" class="rep-cat-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-sengoku-subtext hover:bg-white shrink-0">8 級地</button>
@@ -243,6 +245,8 @@
             <div>
               <label class="block text-sm text-sengoku-subtext mb-1">土地等級 / 類別</label>
               <select id="report-level" class="w-full bg-white border border-sengoku-border rounded p-2.5 text-base focus:border-amber-600 outline-none">
+                <option value="4">4 級地</option>
+                <option value="5">5 級地</option>
                 <option value="6">6 級地</option>
                 <option value="7">7 級地</option>
                 <option value="8">8 級地</option>
