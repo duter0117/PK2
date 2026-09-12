@@ -272,6 +272,19 @@
         <div id="report-gallery" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
           <!-- Dynamically populated via JS -->
         </div>
+
+        <!-- Report Pagination -->
+        <div id="report-pagination" class="hidden flex flex-col sm:flex-row justify-between items-center gap-3 pt-4 border-t border-sengoku-border text-sm">
+          <div id="report-page-info" class="text-sengoku-subtext font-medium"></div>
+          <div class="flex items-center gap-2">
+            <button type="button" id="btn-rep-prev" onclick="changeReportPage(-1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              <i class="fa-solid fa-chevron-left mr-1"></i> 上一頁
+            </button>
+            <button type="button" id="btn-rep-next" onclick="changeReportPage(1)" class="px-3.5 py-1.5 rounded-lg border border-sengoku-border bg-white hover:bg-sengoku-bg text-sengoku-text font-semibold disabled:opacity-40 disabled:cursor-not-allowed">
+              下一頁 <i class="fa-solid fa-chevron-right ml-1"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -546,6 +559,8 @@
     }
 
     let allReportsList = [];
+    let currentReportPage = 1;
+    const REPORT_PAGE_SIZE = 6;
 
     async function loadReports() {
       const gallery = document.getElementById("report-gallery");
@@ -558,23 +573,38 @@
         allReportsList = [];
       }
 
+      currentReportPage = 1;
       renderReports();
     }
 
     function renderReports() {
       const gallery = document.getElementById("report-gallery");
+      const pagination = document.getElementById("report-pagination");
+      const pageInfo = document.getElementById("report-page-info");
+      const btnPrev = document.getElementById("btn-rep-prev");
+      const btnNext = document.getElementById("btn-rep-next");
+
       const filtered = currentReportCat === 'all'
         ? allReportsList
         : allReportsList.filter(r => r.level === currentReportCat);
 
       if (filtered.length === 0) {
         gallery.innerHTML = `<div class="col-span-full text-sm text-sengoku-subtext py-6 text-center border border-dashed border-sengoku-border rounded-lg">目前尚無 ${currentReportCat === 'all' ? '' : (currentReportCat === 'wipe' ? '翻車' : currentReportCat + ' 級地')} 戰報展示。</div>`;
+        pagination.classList.add('hidden');
         return;
       }
 
-      gallery.innerHTML = filtered.map(r => {
+      const totalPages = Math.ceil(filtered.length / REPORT_PAGE_SIZE);
+      if (currentReportPage < 1) currentReportPage = 1;
+      if (currentReportPage > totalPages) currentReportPage = totalPages;
+
+      const pageData = filtered.slice(
+        (currentReportPage - 1) * REPORT_PAGE_SIZE,
+        currentReportPage * REPORT_PAGE_SIZE
+      );
+
+      gallery.innerHTML = pageData.map(r => {
         const timeStr = r.created_at ? r.created_at.substring(0, 16).replace('T', ' ') : '';
-        // escape image_data safely for onclick attr — store id instead
         return `
           <div class="bg-sengoku-bg border border-sengoku-border rounded-lg overflow-hidden shadow-sm hover:shadow transition">
             <div class="relative h-48 bg-black/5 overflow-hidden">
@@ -597,6 +627,21 @@
           </div>
         `;
       }).join('');
+
+      if (totalPages > 1) {
+        pagination.classList.remove('hidden');
+        pageInfo.innerText = `第 ${currentReportPage} / ${totalPages} 頁（共 ${filtered.length} 張戰報）`;
+        btnPrev.disabled = (currentReportPage === 1);
+        btnNext.disabled = (currentReportPage === totalPages);
+      } else {
+        pagination.classList.add('hidden');
+      }
+    }
+
+    function changeReportPage(delta) {
+      currentReportPage += delta;
+      renderReports();
+      document.getElementById('section-reports').scrollIntoView({ behavior: 'smooth' });
     }
 
     async function deleteAuthorReport(reportId) {
